@@ -1,61 +1,114 @@
-// src/components/Sidebar.js
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import {
-  LayoutDashboard, UserPlus, Stethoscope, CalendarDays, BedDouble,
-  FlaskConical, ScanLine, Pill, Package, CreditCard,
-  HelpCircle, LogOut,
+  LayoutDashboard, Users, PawPrint, CalendarDays, ListOrdered,
+  FileText, Stethoscope, BedDouble, Scissors, ScanLine, FlaskConical,
+  Pill, Package, CreditCard, Megaphone, BarChart2, UserCog,
+  Settings, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 
-const navGroups = [
+const NAV = [
   {
-    label: 'MAIN',
+    group: 'MAIN',
     items: [
-      { href: '/dashboard',   icon: LayoutDashboard, label: 'Dashboard' },
-      { href: '/register',    icon: UserPlus,        label: 'Register' },
-      { href: '/emr',         icon: Stethoscope,     label: 'OPD / EMR' },
-      { href: '/appointment', icon: CalendarDays,    label: 'Appointment' },
-      { href: '/ipd',         icon: BedDouble,       label: 'IPD' },
+      { label: 'Dashboard',           icon: LayoutDashboard, href: '/dashboard'   },
     ],
   },
   {
-    label: 'SERVICES',
+    group: 'PATIENT & CLIENT',
     items: [
-      { href: '/lab',       icon: FlaskConical, label: 'Laboratory' },
-      { href: '/imaging',   icon: ScanLine,     label: 'Imaging' },
-      { href: '/pharmacy',  icon: Pill,         label: 'Pharmacy' },
-      { href: '/inventory', icon: Package,      label: 'Inventory' },
-      { href: '/billing',   icon: CreditCard,   label: 'Billing' },
+      { label: 'Clients',             icon: Users,           href: '/clients'     },
+      { label: 'Patients',            icon: PawPrint,        href: '/patients'    },
+      { label: 'Appointments',        icon: CalendarDays,    href: '/appointment' },
+      { label: 'Queue / Walk-in',     icon: ListOrdered,     href: '/queue'       },
+    ],
+  },
+  {
+    group: 'CLINICAL',
+    items: [
+      { label: 'EMR / Medical Record',icon: FileText,        href: '/emr'         },
+      { label: 'OPD',                 icon: Stethoscope,     href: '/emr'         },
+      { label: 'IPD / ICU',           icon: BedDouble,       href: '/ipd'         },
+      { label: 'Surgery',             icon: Scissors,        href: '/treatment'   },
+      { label: 'Imaging',             icon: ScanLine,        href: '/imaging'     },
+      { label: 'Lab / LIS',           icon: FlaskConical,    href: '/lab'         },
+    ],
+  },
+  {
+    group: 'PHARMACY & INVENTORY',
+    items: [
+      { label: 'Pharmacy',            icon: Pill,            href: '/pharmacy'    },
+      { label: 'Inventory / Stock',   icon: Package,         href: '/inventory'   },
+    ],
+  },
+  {
+    group: 'BILLING & CRM',
+    items: [
+      { label: 'Billing / Cashier',   icon: CreditCard,      href: '/billing'     },
+      { label: 'CRM / Marketing',     icon: Megaphone,       href: '#'            },
+    ],
+  },
+  {
+    group: 'MANAGEMENT',
+    items: [
+      { label: 'Reports / Dashboard', icon: BarChart2,       href: '/report'      },
+      { label: 'HR / Staff',          icon: UserCog,         href: '#'            },
+      { label: 'Settings',            icon: Settings,        href: '#'            },
     ],
   },
 ];
 
 export default function Sidebar() {
-  const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
 
   return (
-    <aside className="bg-gradient-to-b from-[#0a3347] to-[#04293a] text-white w-[210px] shrink-0 flex flex-col overflow-y-auto">
-      <nav className="flex-1 p-[14px_10px]">
-        {navGroups.map((group) => (
-          <div key={group.label}>
-            <div className="text-[#87b7c5] text-[10px] font-[850] tracking-widest mx-[10px] mt-4 mb-1.5">
-              {group.label}
-            </div>
-            {group.items.map(({ href, icon: Icon, label }) => {
-              const isActive = href === '/' ? pathname === '/' : pathname?.startsWith(href);
+    <div
+      className={`${collapsed ? 'w-[60px]' : 'w-[220px]'} h-screen bg-white border-r border-[#e3edf3] flex flex-col shrink-0 transition-all duration-200 overflow-hidden`}
+    >
+      {/* Logo */}
+      <div className="h-[56px] flex items-center gap-2.5 px-3.5 border-b border-[#e3edf3] shrink-0">
+        <div className="w-8 h-8 bg-[#2563eb] rounded-lg flex items-center justify-center shrink-0">
+          <PawPrint size={15} color="white" strokeWidth={2.5} />
+        </div>
+        {!collapsed && (
+          <div className="min-w-0">
+            <div className="text-[12px] font-black text-[#102a43] leading-tight truncate">Vet Management</div>
+            <div className="text-[9px] text-[#9ab0bc] leading-tight truncate">Veterinary Hospital System</div>
+          </div>
+        )}
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 overflow-y-auto py-2">
+        {NAV.map((section, si) => (
+          <div key={si} className={si > 0 ? 'mt-0.5' : ''}>
+            {!collapsed && (
+              <div className="px-4 pt-2.5 pb-1 text-[9px] font-bold text-[#b0c4ce] uppercase tracking-widest">
+                {section.group}
+              </div>
+            )}
+            {section.items.map(({ label, icon: Icon, href }) => {
+              const active = href !== '#' && router.pathname === href;
               return (
                 <Link
-                  key={href}
+                  key={label}
                   href={href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold mb-0.5 no-underline transition-colors
-                    ${isActive
-                      ? 'bg-gradient-to-r from-primary to-primary2 text-white shadow-md'
-                      : 'text-[#d8eef4] hover:bg-white/10'
-                    }`}
+                  title={collapsed ? label : undefined}
+                  className={`flex items-center gap-2.5 mx-2 px-2.5 py-[7px] rounded-lg text-[12px] font-semibold transition-colors no-underline mb-0.5 ${
+                    active
+                      ? 'bg-[#eff6ff] text-[#2563eb]'
+                      : 'text-[#64748b] hover:bg-[#f8fafc] hover:text-[#334155]'
+                  }`}
                 >
-                  <Icon size={16} strokeWidth={2} />
-                  {label}
+                  <Icon
+                    size={15}
+                    strokeWidth={2}
+                    className={`shrink-0 ${active ? 'text-[#2563eb]' : 'text-[#94a3b8]'}`}
+                  />
+                  {!collapsed && <span className="truncate">{label}</span>}
                 </Link>
               );
             })}
@@ -63,12 +116,16 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Bottom Section */}
-      <div className="p-[14px_20px] border-t border-white/10 text-[#cfe4eb] text-[13px] flex flex-col gap-2">
-        <span className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
-          <LogOut size={15} /> Log out
-        </span>
-      </div>
-    </aside>
+      {/* Collapse toggle */}
+      <button
+        onClick={() => setCollapsed(c => !c)}
+        className="flex items-center gap-2 px-4 py-3 border-t border-[#e3edf3] text-[#9ab0bc] hover:text-[#64748b] transition-colors text-[11px] font-bold cursor-pointer w-full"
+      >
+        {collapsed
+          ? <ChevronRight size={14} />
+          : <><ChevronLeft size={14} /><span>Collapse</span></>
+        }
+      </button>
+    </div>
   );
 }

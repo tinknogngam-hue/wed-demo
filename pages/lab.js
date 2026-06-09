@@ -1,5 +1,6 @@
 ﻿// src/pages/lab.js
 import React, { useState } from 'react';
+import { X, Search, ClipboardList, Upload, Plus, CheckCircle2 } from 'lucide-react';
 
 // ข้อมูลจำลองสำหรับผลการตรวจแล็บรายบุคคล (Mock Laboratory Data)
 const mockLabData = {
@@ -63,7 +64,7 @@ export default function LabPage() {
       {toastMessage && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 animate-fadeIn">
           <span className="font-bold">{toastMessage}</span>
-          <button onClick={() => setToastMessage('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2">✕</button>
+          <button onClick={() => setToastMessage('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
         </div>
       )}
 
@@ -74,7 +75,7 @@ export default function LabPage() {
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบจัดการสิ่งส่งตรวจ การตรวจวิเคราะห์ และรายงานผลแล็บ</p>
         </div>
         <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full">
-          <input type="text" placeholder="🔎 Search specimen ID / patient / MRN / test name..." className="w-full bg-transparent border-0 outline-none" />
+          <div className="flex items-center gap-2 w-full"><Search size={14} className="shrink-0 text-[#9ab0bc]" /><input type="text" placeholder="Search specimen ID / patient / MRN / test name..." className="flex-1 bg-transparent border-0 outline-none" /></div>
         </div>
       </div>
 
@@ -88,19 +89,19 @@ export default function LabPage() {
             onClick={() => setToolbarView(toolbarView === 'queue' ? 'catalog' : 'queue')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${toolbarView === 'catalog' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📋 Lab Catalog
+            <ClipboardList size={14} className="inline mr-1.5" /> Lab Catalog
           </button>
           <button 
             onClick={() => setToolbarView(toolbarView === 'batch' ? 'queue' : 'batch')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${toolbarView === 'batch' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📤 Batch Report
+            <Upload size={14} className="inline mr-1.5" /> Batch Report
           </button>
           <button 
             onClick={() => setToolbarView(toolbarView === 'manual' ? 'queue' : 'manual')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${toolbarView === 'manual' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'border-0 bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 flex items-center gap-2'}`}
           >
-            <span>➕</span> Manual Entry
+            <Plus size={14} className="inline mr-1" /> Manual Entry
           </button>
         </div>
       </div>
@@ -176,7 +177,7 @@ export default function LabPage() {
                 </table>
               </div>
               <div className="p-4 md:p-[18px_24px] border-t border-[#e3edf3] bg-[#fbfdfe] text-right shrink-0">
-                <button onClick={() => triggerToast(`🎉 อนุมัติและรายงานผลวิเคราะห์ทางห้องปฏิบัติการใบงาน ${activeLab.id} สำเร็จ`)} className="border-0 rounded-xl px-5 py-3 font-[850] text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 cursor-pointer transition-opacity">Approve & Release Report</button>
+                <button onClick={() => triggerToast(`อนุมัติและรายงานผลวิเคราะห์ทางห้องปฏิบัติการใบงาน ${activeLab.id} สำเร็จ`)} className="border-0 rounded-xl px-5 py-3 font-[850] text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 cursor-pointer transition-opacity">Approve & Release Report</button>
               </div>
             </div>
           </div>
@@ -186,7 +187,7 @@ export default function LabPage() {
         {toolbarView === 'catalog' && (
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-sm p-5 md:p-6 h-full flex flex-col overflow-hidden animate-fadeIn">
             <div className="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
-              <h3 className="m-0 text-lg font-bold text-[#102a43]">📋 สารบบรายการทดสอบทางห้องปฏิบัติการ (Lab Test Catalog)</h3>
+              <h3 className="m-0 text-lg font-bold text-[#102a43] flex items-center gap-2"><ClipboardList size={18} className="text-[#0f8f83]" /> สารบบรายการทดสอบทางห้องปฏิบัติการ (Lab Test Catalog)</h3>
             </div>
             <div className="flex-1 overflow-auto">
               <table className="w-full text-left text-xs border-collapse min-w-[700px]">
@@ -214,8 +215,8 @@ export default function LabPage() {
         {toolbarView === 'batch' && (
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-sm p-5 md:p-6 h-full flex flex-col overflow-hidden animate-fadeIn">
             <div className="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
-              <h3 className="m-0 text-lg font-bold text-[#102a43]">📤 อนุมัติรายงานผลแล็บรายกลุ่ม (Batch Result Approval)</h3>
-              <button onClick={() => { setToolbarView('queue'); triggerToast('✅ ได้ทำการ Approve ปล่อยผลแล็บพร้อมกันทั้งหมดเรียบร้อยแล้ว'); }} className="bg-[#0f8f83] text-white px-5 py-2.5 rounded-xl border-0 font-bold text-xs shadow-sm cursor-pointer hover:opacity-90">Approve Selected All</button>
+              <h3 className="m-0 text-lg font-bold text-[#102a43] flex items-center gap-2"><Upload size={18} className="text-[#0f8f83]" /> อนุมัติรายงานผลแล็บรายกลุ่ม (Batch Result Approval)</h3>
+              <button onClick={() => { setToolbarView('queue'); triggerToast('Approve ปล่อยผลแล็บพร้อมกันทั้งหมดเรียบร้อยแล้ว'); }} className="bg-[#0f8f83] text-white px-5 py-2.5 rounded-xl border-0 font-bold text-xs shadow-sm cursor-pointer hover:opacity-90">Approve Selected All</button>
             </div>
             <div className="flex-1 overflow-auto space-y-3">
               <div className="p-4 border rounded-xl bg-gray-50/50 flex items-center justify-between">
@@ -233,8 +234,8 @@ export default function LabPage() {
         {/* VIEW MODE 4: หน้าจอฟอร์มคีย์สร้างใบสิ่งส่งตรวจแล็บด้วยตนเอง (MANUAL ENTRY) */}
         {toolbarView === 'manual' && (
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-sm p-5 md:p-6 h-full flex flex-col overflow-hidden animate-fadeIn">
-            <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2 shrink-0">➕ ป้อนฟอร์มสั่งตรวจหรือนำเข้าผลแล็บภายนอกภายนอก (Manual Entry Form)</h3>
-            <form onSubmit={(e) => { e.preventDefault(); setToolbarView('queue'); triggerToast('✅ สร้างใบส่งตรวจและเตรียมรับสิ่งส่งตรวจแมนนวลเสร็จสิ้น'); }} className="space-y-4 max-w-xl text-sm flex-1 overflow-y-auto pr-2">
+            <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2 shrink-0 flex items-center gap-2"><Plus size={18} className="text-[#0f8f83]" /> ป้อนฟอร์มสั่งตรวจหรือนำเข้าผลแล็บภายนอก (Manual Entry Form)</h3>
+            <form onSubmit={(e) => { e.preventDefault(); setToolbarView('queue'); triggerToast('สร้างใบส่งตรวจและเตรียมรับสิ่งส่งตรวจแมนนวลเสร็จสิ้น'); }} className="space-y-4 max-w-xl text-sm flex-1 overflow-y-auto pr-2">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="font-bold text-[#35546a]">เลือกหรือระบุรหัสคนไข้ MRN *</label>

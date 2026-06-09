@@ -1,11 +1,12 @@
 ﻿// src/pages/billing.js
 import React, { useState } from 'react';
+import { X, Search, BarChart2, FileText, Plus, Tag, Printer, Banknote, CreditCard, Smartphone, Check, Dog, Cat, PawPrint, Sparkles } from 'lucide-react';
 
 // ข้อมูลจำลองสำหรับระบบปิดบิลแยกคิวตามสถานะการชำระเงิน (Mock Invoice Master Data)
 const mockInvoices = {
   pending: [
     {
-      id: 'INV-240606-01', pet: 'Lucky', emoji: '🐶', breed: 'Golden Retriever', owner: 'คุณณวรรณ สุขใจ', tel: '081-234-5678', typeLabel: 'OPD + Lab + Meds', doctor: 'สพ.ญ. นัทธสร สุขใจ', date: '06/06/2026 10:45 AM',
+      id: 'INV-240606-01', pet: 'Lucky', species: 'dog', breed: 'Golden Retriever', owner: 'คุณณวรรณ สุขใจ', tel: '081-234-5678', typeLabel: 'OPD + Lab + Meds', doctor: 'สพ.ญ. นัทธสร สุขใจ', date: '06/06/2026 10:45 AM',
       items: [
         { name: 'Doctor Fee (OPD)', desc: 'ค่าธรรมเนียมสัตวแพทย์ห้องตรวจ', qty: 1, price: 500, discount: 0 },
         { name: 'CBC & Blood Chemistry (Standard)', desc: 'เจาะตรวจวิเคราะห์ผลเลือดทั่วไป', qty: 1, price: 1200, discount: 0 },
@@ -15,14 +16,14 @@ const mockInvoices = {
       subtotal: 3050, discountTotal: 35, vat: 197.24, netTotal: 3015
     },
     {
-      id: 'INV-240606-02', pet: 'Mochi', emoji: '🐱', breed: 'Persian Cat', owner: 'คุณสมหมาย ใจดี', tel: '089-765-4321', typeLabel: 'Vaccine Package', doctor: 'น.สพ. วิทยา รักษาดี', date: '06/06/2026 11:15 AM',
+      id: 'INV-240606-02', pet: 'Mochi', species: 'cat', breed: 'Persian Cat', owner: 'คุณสมหมาย ใจดี', tel: '089-765-4321', typeLabel: 'Vaccine Package', doctor: 'น.สพ. วิทยา รักษาดี', date: '06/06/2026 11:15 AM',
       items: [
         { name: 'Feline Core Vaccine Package', desc: 'ชุดวัคซีนรวมแมวประจำปีและตรวจร่างกาย', qty: 1, price: 1200, discount: 100 }
       ],
       subtotal: 1200, discountTotal: 100, vat: 71.96, netTotal: 1100
     },
     {
-      id: 'INV-240606-03', pet: 'Snowy', emoji: '🐰', breed: 'Rabbit', owner: 'คุณสมหญิง รักสัตว์', tel: '085-333-2211', typeLabel: 'Grooming & Spa', doctor: 'ฝ่ายบริการสปาตัดขน', date: '06/06/2026 11:40 AM',
+      id: 'INV-240606-03', pet: 'Snowy', species: 'rabbit', breed: 'Rabbit', owner: 'คุณสมหญิง รักสัตว์', tel: '085-333-2211', typeLabel: 'Grooming & Spa', doctor: 'ฝ่ายบริการสปาตัดขน', date: '06/06/2026 11:40 AM',
       items: [
         { name: 'Medical Grooming & Haircut', desc: 'บริการตัดขนสั้นเพื่อการรักษาโรคผิวหนัง', qty: 1, price: 450, discount: 0 },
         { name: 'Ozone Microbubble Spa', desc: 'สปาฟองอากาศฆ่าเชื้อแบคทีเรียผิวหนัง', qty: 1, price: 200, discount: 0 }
@@ -32,14 +33,14 @@ const mockInvoices = {
   ],
   completed: [
     {
-      id: 'INV-240605-09', pet: 'Charly', emoji: '🐶', breed: 'Poodle', owner: 'คุณวรรณา นามดี', tel: '082-111-2222', typeLabel: 'Meds Only', doctor: 'สพ.ญ. นัทธสร สุขใจ', date: '05/06/2026 04:20 PM',
+      id: 'INV-240605-09', pet: 'Charly', species: 'dog', breed: 'Poodle', owner: 'คุณวรรณา นามดี', tel: '082-111-2222', typeLabel: 'Meds Only', doctor: 'สพ.ญ. นัทธสร สุขใจ', date: '05/06/2026 04:20 PM',
       items: [{ name: 'Heartworm Preventive Medication', desc: 'ยากันพยาธิหนอนหัวใจรายเดือน', qty: 1, price: 450, discount: 0 }],
       subtotal: 450, discountTotal: 0, vat: 29.44, netTotal: 450
     }
   ],
   debt: [
     {
-      id: 'INV-240520-02', pet: 'Tiger', emoji: '🐶', breed: 'Thai Dog', owner: 'คุณวิชัย มานะ', tel: '086-444-5555', typeLabel: 'Emergency Post-op', doctor: 'น.สพ. วิทยา รักษาดี', date: '20/05/2026 02:10 AM',
+      id: 'INV-240520-02', pet: 'Tiger', species: 'dog', breed: 'Thai Dog', owner: 'คุณวิชัย มานะ', tel: '086-444-5555', typeLabel: 'Emergency Post-op', doctor: 'น.สพ. วิทยา รักษาดี', date: '20/05/2026 02:10 AM',
       items: [{ name: 'Emergency Surgery Pack & ICU Stay', desc: 'ผ่าตัดด่วนกรณีสิ่งแปลกปลอมอุดตันและพักฟื้น', qty: 1, price: 15000, discount: 1500 }],
       subtotal: 15000, discountTotal: 1500, vat: 883.18, netTotal: 13500
     }
@@ -81,7 +82,7 @@ export default function BillingPage() {
     const itemObj = {
       id: `INV-240606-M${Math.floor(Math.random() * 90) + 10}`,
       pet: manualInvoice.petName || 'ไม่ระบุชื่อ',
-      emoji: '✨',
+      species: 'other',
       breed: 'สินค้าหน้าเคาน์เตอร์',
       owner: manualInvoice.ownerName,
       tel: '-',
@@ -100,7 +101,7 @@ export default function BillingPage() {
     setInvoiceFilter('pending');
     setSelectedInvId(itemObj.id);
     setManualInvoice({ ownerName: '', petName: '', itemName: '', totalAmount: '' });
-    triggerToast('➕ สร้างใบเรียกเก็บเงินแมนนวลเข้าระบบการเงินสำเร็จคิวอัปเดตแล้ว');
+    triggerToast('สร้างใบเรียกเก็บเงินแมนนวลเข้าระบบการเงินสำเร็จคิวอัปเดตแล้ว');
   };
 
   return (
@@ -110,7 +111,7 @@ export default function BillingPage() {
       {toastAlert && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 animate-fadeIn">
           <span className="font-bold">{toastAlert}</span>
-          <button onClick={() => setToastAlert('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2">✕</button>
+          <button onClick={() => setToastAlert('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
         </div>
       )}
 
@@ -121,7 +122,7 @@ export default function BillingPage() {
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบชำระเงิน ออกใบเสร็จ และจัดการส่วนลด</p>
         </div>
         <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full">
-          <input type="text" placeholder="🔎 Search invoice / patient / owner / phone..." className="w-full bg-transparent border-0 outline-none" />
+          <input type="text" placeholder="Search invoice / patient / owner / phone..." className="w-full bg-transparent border-0 outline-none" />
         </div>
       </div>
 
@@ -129,11 +130,11 @@ export default function BillingPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 shrink-0 gap-3">
         <div className="text-[13px] text-[#64788a]">Home › Billing › Pending Invoices</div>
         <div className="flex flex-wrap gap-2.5">
-          <button onClick={() => triggerToast('📊 เปิดประวัติสรุปยอดสรุปการเงินและนำส่งเงิน (Daily Cash Report)')} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] transition-colors">
-            📊 Daily Report
+          <button onClick={() => triggerToast('เปิดประวัติสรุปยอดสรุปการเงินและนำส่งเงิน (Daily Cash Report)')} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] transition-colors">
+            <BarChart2 size={14} className="inline mr-1.5" /> Daily Report
           </button>
           <button onClick={() => setIsManualModalOpen(true)} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] transition-colors">
-            📝 Create Manual Invoice
+            <FileText size={14} className="inline mr-1.5" /> Create Manual Invoice
           </button>
         </div>
       </div>
@@ -175,7 +176,7 @@ export default function BillingPage() {
                     </span>
                   </div>
                   <div className="flex gap-3">
-                    <div className="w-[42px] h-[42px] rounded-lg bg-[#fff1d8] grid place-items-center text-[22px] shrink-0">{inv.emoji}</div>
+                    <div className="w-[42px] h-[42px] rounded-lg bg-[#fff1d8] grid place-items-center shrink-0">{inv.species === 'dog' ? <Dog size={22} className="text-[#b45309]" /> : inv.species === 'cat' ? <Cat size={22} className="text-[#7c3aed]" /> : inv.species === 'rabbit' ? <PawPrint size={22} className="text-[#9ab0bc]" /> : <Sparkles size={22} className="text-[#9ab0bc]" />}</div>
                     <div className="flex-1 min-w-0">
                       <b className="text-[14px] text-[#102a43] block truncate">{inv.pet} ({inv.breed})</b>
                       <span className="text-[12px] text-[#64788a] block truncate">{inv.owner}</span>
@@ -247,10 +248,10 @@ export default function BillingPage() {
 
               {/* Note & Add Item Actions */}
               <div className="mt-4 flex gap-2">
-                <button onClick={() => triggerToast('➕ เปิดหน้าต่างเลือกคลังเวชภัณฑ์/บริการตรวจรักษา เพิ่มเติมเข้าสู่รายการบิล')} className="text-[12px] font-black text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg border border-[#0f8f83] hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer">
+                <button onClick={() => triggerToast('เปิดหน้าต่างเลือกคลังเวชภัณฑ์/บริการตรวจรักษา เพิ่มเติมเข้าสู่รายการบิล')} className="text-[12px] font-black text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg border border-[#0f8f83] hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer">
                   + Add Item
                 </button>
-                <button onClick={() => triggerToast('🎟️ ระบบเปิดใช้งานคูปองส่วนลดสมาชิก/ส่วนลดพิเศษประธานบริหาร')} className="text-[12px] font-black text-[#35546a] bg-white px-3 py-1.5 rounded-lg border border-[#e3edf3] hover:bg-gray-50 transition-colors cursor-pointer">
+                <button onClick={() => triggerToast('ระบบเปิดใช้งานคูปองส่วนลดสมาชิก/ส่วนลดพิเศษประธานบริหาร')} className="text-[12px] font-black text-[#35546a] bg-white px-3 py-1.5 rounded-lg border border-[#e3edf3] hover:bg-gray-50 transition-colors cursor-pointer">
                   + Add Discount
                 </button>
               </div>
@@ -268,21 +269,21 @@ export default function BillingPage() {
                       onClick={() => setPaymentMethod('cash')}
                       className={`border-2 rounded-xl p-2.5 text-center cursor-pointer select-none transition-all ${paymentMethod === 'cash' ? 'border-[#0f8f83] bg-[#e9f7f4]' : 'border-[#e3edf3] bg-white hover:border-gray-300'}`}
                     >
-                      <span className="block text-xl mb-0.5">💵</span>
+                      <Banknote size={20} className="block mb-0.5 mx-auto" />
                       <b className={`text-xs ${paymentMethod === 'cash' ? 'text-[#0f8f83]' : 'text-[#35546a]'}`}>Cash</b>
                     </div>
                     <div 
                       onClick={() => setPaymentMethod('card')}
                       className={`border-2 rounded-xl p-2.5 text-center cursor-pointer select-none transition-all ${paymentMethod === 'card' ? 'border-[#0f8f83] bg-[#e9f7f4]' : 'border-[#e3edf3] bg-white hover:border-gray-300'}`}
                     >
-                      <span className="block text-xl mb-0.5">💳</span>
+                      <CreditCard size={20} className="block mb-0.5 mx-auto" />
                       <b className={`text-xs ${paymentMethod === 'card' ? 'text-[#0f8f83]' : 'text-[#35546a]'}`}>Credit Card</b>
                     </div>
                     <div 
                       onClick={() => setPaymentMethod('qr')}
                       className={`border-2 rounded-xl p-2.5 text-center cursor-pointer select-none transition-all ${paymentMethod === 'qr' ? 'border-[#0f8f83] bg-[#e9f7f4]' : 'border-[#e3edf3] bg-white hover:border-gray-300'}`}
                     >
-                      <span className="block text-xl mb-0.5">📱</span>
+                      <Smartphone size={20} className="block mb-0.5 mx-auto" />
                       <b className={`text-xs ${paymentMethod === 'qr' ? 'text-[#0f8f83]' : 'text-[#35546a]'}`}>PromptPay</b>
                     </div>
                   </div>
@@ -314,12 +315,12 @@ export default function BillingPage() {
                 
                 {/* กลุ่มปุ่มควบคุมคำสั่ง Print & Save ท้ายบิล */}
                 <div className="flex gap-2 justify-end shrink-0">
-                  <button onClick={() => triggerToast(`🖨️ ออกใบพิมพ์ใบประเมินราคาล่วงหน้า (Quotation) ของบิลเลขที่ ${activeInvoice.id} สำเร็จ`)} className="border border-[#e3edf3] rounded-xl px-[15px] py-[11px] font-black cursor-pointer text-xs bg-white text-[#35546a] hover:bg-gray-50 transition-colors">
-                    🖨️ Print Estimate
+                  <button onClick={() => triggerToast(`ออกใบพิมพ์ใบประเมินราคาล่วงหน้า (Quotation) ของบิลเลขที่ ${activeInvoice.id} สำเร็จ`)} className="border border-[#e3edf3] rounded-xl px-[15px] py-[11px] font-black cursor-pointer text-xs bg-white text-[#35546a] hover:bg-gray-50 transition-colors">
+                    <Printer size={14} className="inline mr-1.5" /> Print Estimate
                   </button>
                   <button 
                     onClick={() => {
-                      triggerToast(`✅ ปิดยอดรับเงินสำเร็จ! ได้ทำการบันทึกใบเสร็จรับเงินเลขที่ ${activeInvoice.id} ลงบัญชีคลังและพิมพ์ฉลากเสร็จสิ้น`);
+                      triggerToast(`ปิดยอดรับเงินสำเร็จ! ได้ทำการบันทึกใบเสร็จรับเงินเลขที่ ${activeInvoice.id} ลงบัญชีคลังและพิมพ์ฉลากเสร็จสิ้น`);
                       if(invoiceFilter === 'pending') {
                         // ปรับย้ายคิวจำลองจากใบงานรอจ่าย sang จ่ายเงินเรียบร้อย
                         mockInvoices.completed.unshift({...activeInvoice, netTotal: activeInvoice.netTotal});
@@ -346,7 +347,7 @@ export default function BillingPage() {
       {isManualModalOpen && (
         <div className="fixed inset-0 z-50 bg-[#102a43]/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-[#e3edf3] rounded-2xl w-full max-w-md shadow-2xl p-6 animate-scaleIn">
-            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]">📝 ออกใบแจ้งหนี้แบบคีย์เองหน้าร้าน (Manual Invoice Form)</h3>
+            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]"><FileText size={18} className="inline mr-2 text-[#0f8f83]" /> ออกใบแจ้งหนี้แบบคีย์เองหน้าร้าน (Manual Invoice Form)</h3>
             <form onSubmit={handleCreateManualInvoice} className="space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">

@@ -1,22 +1,23 @@
 ﻿// src/pages/emr.js
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Search, Phone, Mail, ClipboardList, Syringe, Pill, FileText, AlertTriangle, Sparkles, Heart, Dog, Cat, PawPrint, X } from 'lucide-react';
 
 // ข้อมูลจำลองคิวcomบ่งตามสถานะ (Mock Data)
 const mockQueues = {
   waiting: [
-    { no: 'A012', pet: 'Lucky', emoji: '🐶', gender: '♂', breed: 'Golden Retriever', age: '5Y', symptom: 'Vomiting', owner: 'คุณณวรรณ สุขใจ', time: '09:15', duration: '19m', urgent: true },
-    { no: 'A013', pet: 'Mochi', emoji: '🐱', gender: '♀', breed: 'Persian', age: '3Y', symptom: 'Vaccine', owner: 'คุณปัณณดา', time: '09:30', duration: '5m', urgent: false },
-    { no: 'A014', pet: 'Peanut', emoji: '🐰', gender: '♂', breed: 'ND Rabbit', age: '1Y', symptom: 'Grooming', owner: 'คุณสุดา', time: '09:45', duration: '2m', urgent: false }
+    { no: 'A012', pet: 'Lucky', species: 'dog', gender: 'M', breed: 'Golden Retriever', age: '5Y', symptom: 'Vomiting', owner: 'คุณณวรรณ สุขใจ', time: '09:15', duration: '19m', urgent: true },
+    { no: 'A013', pet: 'Mochi', species: 'cat', gender: 'F', breed: 'Persian', age: '3Y', symptom: 'Vaccine', owner: 'คุณปัณณดา', time: '09:30', duration: '5m', urgent: false },
+    { no: 'A014', pet: 'Peanut', species: 'rabbit', gender: 'M', breed: 'ND Rabbit', age: '1Y', symptom: 'Grooming', owner: 'คุณสุดา', time: '09:45', duration: '2m', urgent: false }
   ],
   progress: [
-    { no: 'A010', pet: 'Tiger', emoji: '🐶', gender: '♂', breed: 'Thai Dog', age: '2Y', symptom: 'Abscess check', owner: 'คุณวิชัย', time: '08:45', duration: 'Exam room 1', urgent: false },
-    { no: 'A011', pet: 'Sakura', emoji: '🐱', gender: '♀', breed: 'Siamese', age: '4Y', symptom: 'Fever', owner: 'คุณนิภา', time: '09:00', duration: 'Exam room 2', urgent: true }
+    { no: 'A010', pet: 'Tiger', species: 'dog', gender: 'M', breed: 'Thai Dog', age: '2Y', symptom: 'Abscess check', owner: 'คุณวิชัย', time: '08:45', duration: 'Exam room 1', urgent: false },
+    { no: 'A011', pet: 'Sakura', species: 'cat', gender: 'F', breed: 'Siamese', age: '4Y', symptom: 'Fever', owner: 'คุณนิภา', time: '09:00', duration: 'Exam room 2', urgent: true }
   ],
   done: [
-    { no: 'A007', pet: 'Charly', emoji: '🐶', gender: '♂', breed: 'Poodle', age: '12Y', symptom: 'Heart Follow-up', owner: 'คุณวรรณา', time: '08:00', duration: 'Completed', urgent: false },
-    { no: 'A008', pet: 'Max', emoji: '🐶', gender: '♂', breed: 'French Bulldog', age: '3Y', symptom: 'Ear Infection', owner: 'คุณธนา', time: '08:15', duration: 'Completed', urgent: false },
-    { no: 'A009', pet: 'Bella', emoji: '🐱', gender: '♀', breed: 'Scottish Fold', age: '2Y', symptom: 'Spay Post-op', owner: 'คุณรัตนา', time: '08:30', duration: 'Completed', urgent: false }
+    { no: 'A007', pet: 'Charly', species: 'dog', gender: 'M', breed: 'Poodle', age: '12Y', symptom: 'Heart Follow-up', owner: 'คุณวรรณา', time: '08:00', duration: 'Completed', urgent: false },
+    { no: 'A008', pet: 'Max', species: 'dog', gender: 'M', breed: 'French Bulldog', age: '3Y', symptom: 'Ear Infection', owner: 'คุณธนา', time: '08:15', duration: 'Completed', urgent: false },
+    { no: 'A009', pet: 'Bella', species: 'cat', gender: 'F', breed: 'Scottish Fold', age: '2Y', symptom: 'Spay Post-op', owner: 'คุณรัตนา', time: '08:30', duration: 'Completed', urgent: false }
   ]
 };
 
@@ -41,8 +42,8 @@ export default function EmrPage() {
           <h2 className="m-0 text-[28px] font-bold text-[#102a43]">OPD Consultation / EMR</h2>
           <p className="m-0 mt-1 text-[#64788a] text-sm">Worklist + Current Encounter + Clinical Summary ในหน้าเดียว</p>
         </div>
-        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full lg:w-[450px]">
-          🔎 Search patient / client / MRN / queue no.
+        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full lg:w-[450px] flex items-center gap-2">
+          <Search size={14} className="shrink-0" /> Search patient / client / MRN / queue no.
         </div>
       </div>
 
@@ -110,7 +111,7 @@ export default function EmrPage() {
               >
                 <div className="text-[18px] font-[950] text-[#0f8f83]">{q.no}</div>
                 <div>
-                  <b className="text-[15px] text-[#102a43]">{q.pet} {q.emoji} {q.gender}</b>
+                  <b className="text-[15px] text-[#102a43]">{q.pet} {q.species === 'dog' ? <Dog size={14} className="inline text-[#b45309]" /> : q.species === 'cat' ? <Cat size={14} className="inline text-[#7c3aed]" /> : <PawPrint size={14} className="inline text-[#15803d]" />} <span className={`text-[10px] font-bold border px-0.5 rounded ${q.gender === 'M' ? 'text-[#3b82f6] border-[#3b82f6]' : 'text-[#ec4899] border-[#ec4899]'}`}>{q.gender}</span></b>
                   <small className="block text-[#64788a] mt-1 text-[12px]">{q.breed} · {q.age} · {q.symptom}</small>
                   <small className="block text-[#64788a] text-[12px]">{q.owner}</small>
                 </div>
@@ -131,16 +132,16 @@ export default function EmrPage() {
         <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] flex flex-col overflow-hidden">
           {/* Patient Header */}
           <div className="p-[16px_18px] grid grid-cols-1 sm:grid-cols-[68px_1.2fr_1fr_auto] gap-[16px] items-center shrink-0 border-b border-[#e3edf3]">
-            <div className="w-[68px] h-[68px] rounded-[22px] bg-[#fff0d9] grid place-items-center text-[38px] justify-self-center sm:justify-self-start">🐶</div>
+            <div className="w-[68px] h-[68px] rounded-[22px] bg-[#fff0d9] grid place-items-center justify-self-center sm:justify-self-start"><Dog size={38} className="text-[#b45309]" /></div>
             <div className="text-center sm:text-left">
-              <h2 className="m-0 text-[25px] font-bold text-[#102a43]">Lucky ♂</h2>
+              <h2 className="m-0 text-[25px] font-bold text-[#102a43] flex items-center gap-2">Lucky <span className="text-[#3b82f6] text-[13px] font-bold border border-[#3b82f6] px-1.5 py-0.5 rounded">M</span></h2>
               <p className="m-0 mt-1 text-[#64788a] text-[13px]">Golden Retriever · 5Y 2M · 32.5 kg · BCS 5/9</p>
               <span className="inline-block mt-1.5 bg-[#e9f7f4] text-[#0f8f83] px-2.5 py-1 rounded-full font-[850] text-[12px]">MRN P240001</span>
             </div>
             <div className="border-t sm:border-t-0 sm:border-l border-[#e3edf3] pt-3 sm:pt-0 sm:pl-4 text-[13px] text-[#254860] leading-relaxed text-center sm:text-left">
               <b className="text-[#102a43] text-[14px]">คุณณวรรณ สุขใจ</b><br/>
-              ☎ 081-234-5678<br/>
-              ✉ nawan.sukjai@email.com
+              <span className="flex items-center gap-1.5"><Phone size={12} /> 081-234-5678</span>
+              <span className="flex items-center gap-1.5 mt-1"><Mail size={12} /> nawan.sukjai@email.com</span>
             </div>
             <div className="text-center sm:text-right flex sm:flex-col justify-center gap-2 sm:gap-0 mt-2 sm:mt-0">
               <span className="inline-block bg-[#e8f7f1] text-[#0f8d62] px-2 py-1 rounded-full text-[11px] font-[850]">Current Visit</span>
@@ -350,11 +351,11 @@ export default function EmrPage() {
                   {/* จำลองข้อมูลใบสั่งการรักษา (Orders Sub-tab) */}
                   {soapSubTab === 'orders' && (
                     <div className="bg-white border border-[#e3edf3] rounded-2xl p-4 shadow-sm space-y-3 animate-fadeIn flex-1">
-                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2">📋 รายการคำสั่งการรักษาตรวจแล็บห้องปฏิบัติการ (Lab Orders)</h4>
+                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2"><ClipboardList size={14} className="inline mr-1.5 text-[#0f8f83]" /> รายการคำสั่งการรักษาตรวจแล็บห้องปฏิบัติการ (Lab Orders)</h4>
                       <label className="flex items-center gap-3 text-sm text-[#102a43] cursor-pointer"><input type="checkbox" defaultChecked className="w-4 h-4" /> เจาะตรวจเลือดประจำวัน (CBC + Blood Chemistry + SDMA)</label>
                       <label className="flex items-center gap-3 text-sm text-[#102a43] cursor-pointer"><input type="checkbox" defaultChecked className="w-4 h-4" /> ชุดตรวจคัดกรองตับอ่อนอักเสบสุนัขสากล (cPL Snap Test)</label>
                       
-                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2 pt-2">💉 รายการคำสั่งให้ยาและสารน้ำหัตถการ (Treatment Orders)</h4>
+                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2 pt-2"><Syringe size={14} className="inline mr-1.5 text-[#0f8f83]" /> รายการคำสั่งให้ยาและสารน้ำหัตถการ (Treatment Orders)</h4>
                       <label className="flex items-center gap-3 text-sm text-[#102a43] cursor-pointer"><input type="checkbox" defaultChecked className="w-4 h-4" /> Maropitant Injection 10mg/mL - ขนาด 3.2 mL ฉีดเข้าหลอดเลือดดำ (IV STAT)</label>
                       <label className="flex items-center gap-3 text-sm text-[#102a43] cursor-pointer"><input type="checkbox" defaultChecked className="w-4 h-4" /> ให้สารน้ำ Lactated Ringer's Solution (LRS) อัตราความเร็ว 90 mL/hr</label>
                     </div>
@@ -363,7 +364,7 @@ export default function EmrPage() {
                   {/* จำลองข้อมูลใบสั่งยาเดินทางกลับบ้าน (Prescription Sub-tab) */}
                   {soapSubTab === 'prescription' && (
                     <div className="bg-white border border-[#e3edf3] rounded-2xl p-4 shadow-sm animate-fadeIn flex-1">
-                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2">💊 ยาสั่งกลับบ้าน (Take-home Medications)</h4>
+                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2"><Pill size={14} className="inline mr-1.5 text-[#0f8f83]" /> ยาสั่งกลับบ้าน (Take-home Medications)</h4>
                       <table className="w-full text-xs text-left mt-3 border-collapse">
                         <thead>
                           <tr className="bg-gray-50 text-[#64788a] font-bold"><th className="p-2">ชื่อยา/ความเข้มข้น</th><th className="p-2">จำนวน</th><th className="p-2">วิธีใช้และวิธีคำนวณโดส</th></tr>
@@ -380,7 +381,7 @@ export default function EmrPage() {
                   {/* จำลองบันทึกแพทย์และพยาบาล (Note Sub-tab) */}
                   {soapSubTab === 'note' && (
                     <div className="bg-white border border-[#e3edf3] rounded-2xl p-4 shadow-sm animate-fadeIn flex-1">
-                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2">📝 บันทึกความเห็นแพทย์ผู้ทำการตรวจ (Doctor & Nursing Notes)</h4>
+                      <h4 className="text-[#102a43] font-bold text-sm m-0 border-b pb-2"><FileText size={14} className="inline mr-1.5 text-[#0f8f83]" /> บันทึกความเห็นแพทย์ผู้ทำการตรวจ (Doctor & Nursing Notes)</h4>
                       <div className="text-xs text-[#102a43] space-y-3 mt-3">
                         <div className="p-2.5 bg-gray-50 rounded-lg">
                           <span className="text-gray-400 font-bold">12/05/2569 09:30 · สพ.ญ. นัทธสร:</span>
@@ -425,9 +426,9 @@ export default function EmrPage() {
                       <tr className="text-xs uppercase text-[#64788a] bg-gray-50"><th className="p-2">Parameter</th><th className="p-2">Result</th><th className="p-2">Reference Range</th><th className="p-2">Status</th></tr>
                     </thead>
                     <tbody className="text-[#102a43]">
-                      <tr className="border-b"><td className="p-2 font-bold">Creatinine</td><td className="p-2 text-red-500 font-bold">2.1 mg/dL</td><td className="p-2">0.5 - 1.8 mg/dL</td><td className="p-2 text-red-500">High ⚠️</td></tr>
-                      <tr className="border-b"><td className="p-2 font-bold">BUN</td><td className="p-2 text-red-500 font-bold">34.2 mg/dL</td><td className="p-2">7.0 - 27.0 mg/dL</td><td className="p-2 text-red-500">High ⚠️</td></tr>
-                      <tr className="border-b"><td className="p-2 font-bold">SDMA</td><td className="p-2 text-red-500 font-bold">18 µg/dL</td><td className="p-2">0 - 14 µg/dL</td><td className="p-2 text-red-500">High ⚠️</td></tr>
+                      <tr className="border-b"><td className="p-2 font-bold">Creatinine</td><td className="p-2 text-red-500 font-bold">2.1 mg/dL</td><td className="p-2">0.5 - 1.8 mg/dL</td><td className="p-2 text-red-500">High <AlertTriangle size={12} className="inline ml-1 text-red-500" /></td></tr>
+                      <tr className="border-b"><td className="p-2 font-bold">BUN</td><td className="p-2 text-red-500 font-bold">34.2 mg/dL</td><td className="p-2">7.0 - 27.0 mg/dL</td><td className="p-2 text-red-500">High <AlertTriangle size={12} className="inline ml-1 text-red-500" /></td></tr>
+                      <tr className="border-b"><td className="p-2 font-bold">SDMA</td><td className="p-2 text-red-500 font-bold">18 µg/dL</td><td className="p-2">0 - 14 µg/dL</td><td className="p-2 text-red-500">High <AlertTriangle size={12} className="inline ml-1 text-red-500" /></td></tr>
                       <tr><td className="p-2 font-bold">HCT</td><td className="p-2">43 %</td><td className="p-2">37 - 55 %</td><td className="p-2 text-green-600">Normal</td></tr>
                     </tbody>
                   </table>
@@ -475,7 +476,7 @@ export default function EmrPage() {
             {currentNavTab === 'documents' && (
               <div className="p-5 overflow-y-auto h-full bg-[#f6f9fb] animate-fadeIn">
                 <div className="bg-white border border-[#e3edf3] rounded-xl p-4 shadow-sm text-center">
-                  <p className="text-sm text-[#64788a] m-0 py-4">📄 ไม่พบเอกสารหรือใบรับรองแพทย์ภายนอกที่ถูกอัปโหลดในระบบขณะนี้</p>
+                  <p className="text-sm text-[#64788a] m-0 py-4"><FileText size={14} className="inline mr-1.5 text-[#9ab0bc]" /> ไม่พบเอกสารหรือใบรับรองแพทย์ภายนอกที่ถูกอัปโหลดในระบบขณะนี้</p>
                 </div>
               </div>
             )}
@@ -576,7 +577,7 @@ export default function EmrPage() {
             {summaryTab === 'summary' && (
               <>
                 <div className="bg-white border border-[#e3edf3] rounded-[16px] overflow-hidden animate-fadeIn">
-                  <h3 className="m-0 p-[13px_14px] border-b border-[#e3edf3] text-[15px] bg-white text-[#102a43] sticky top-0">✨ AI Clinical Summary</h3>
+                  <h3 className="m-0 p-[13px_14px] border-b border-[#e3edf3] text-[15px] bg-white text-[#102a43] sticky top-0"><Sparkles size={16} className="inline mr-2 text-[#0f8f83]" /> AI Clinical Summary</h3>
                   <div className="p-[13px_14px]">
                     <div className="bg-gradient-to-b from-[#f4fbff] to-[#f8fffd] border border-[#d8edf1] rounded-[15px] p-[13px] text-[13px] leading-relaxed text-[#102a43]">
                       <b>Last Visit Summary:</b>
@@ -597,14 +598,14 @@ export default function EmrPage() {
                   <h3 className="m-0 p-[13px_14px] border-b border-[#e3edf3] text-[15px] bg-white text-[#102a43] sticky top-0">Problem List</h3>
                   <div className="p-[13px_14px]">
                     <div className="flex gap-2.5 py-2.5 border-b border-[#e3edf3]">
-                      <div className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-[#fff6e9] text-[16px]">🧡</div>
+                      <div className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-[#fff6e9]"><Heart size={18} className="text-orange-500" /></div>
                       <div>
                         <b className="text-[13px] text-[#102a43]">CKD Stage 2</b>
                         <small className="block text-[#64788a] text-[11px]">IRIS Staging system standard</small>
                       </div>
                     </div>
                     <div className="flex gap-2.5 pt-2.5">
-                      <div className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-[#fff6e9] text-[16px]">⚠️</div>
+                      <div className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-[#fff6e9]"><AlertTriangle size={18} className="text-amber-500" /></div>
                       <div>
                         <b className="text-[13px] text-[#102a43]">Proteinuria</b>
                         <small className="block text-[#64788a] text-[11px]">UPC อยู่ที่ระดับ 2.1 (High Pro)</small>

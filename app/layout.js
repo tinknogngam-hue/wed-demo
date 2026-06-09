@@ -1,8 +1,8 @@
-'use client'; // ✅ 1. ต้องเติมบรรทัดนี้ไว้บนสุดเสมอ เพื่อให้ใช้ Hook ของ Next.js ได้
+'use client'; // 1. ต้องเติมบรรทัดนี้ไว้บนสุดเสมอ เพื่อให้ใช้ Hook ของ Next.js ได้
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // ✅ 2. นำเข้า usePathname
+import { usePathname } from 'next/navigation'; // 2. นำเข้า usePathname
 import {
   Heart, LayoutDashboard, UserPlus, CalendarDays,
   Stethoscope, BedDouble, Pill, FlaskConical,
@@ -12,12 +12,12 @@ import {
 const dropdownLink = 'flex items-center gap-2.5 px-5 py-2.5 text-[13px] hover:bg-[#e9f7f4] hover:text-[#0f8f83] font-bold transition-colors no-underline text-[#102a43]';
 
 export default function AppHeader() {
-  const pathname = usePathname(); // ✅ 3. ดึง path ปัจจุบันมาตรวจสอบ
+  const pathname = usePathname(); // 3. ดึง path ปัจจุบันมาตรวจสอบ
 
-  // ✅ 4. ระบุหน้าที่ "ไม่ต้อง" แสดงเมนูด้านบน
+  // 4. ระบุหน้าที่ "ไม่ต้อง" แสดงเมนูด้านบน
   const hiddenRoutes = ['/login', '/forgot-password', '/signup'];
   
-  // ✅ 5. ถ้า path ปัจจุบันอยู่ในลิสต์ด้านบน ให้ return null (ซ่อนแถบเมนู)
+  // 5. ถ้า path ปัจจุบันอยู่ในลิสต์ด้านบน ให้ return null (ซ่อนแถบเมนู)
   if (hiddenRoutes.includes(pathname)) {
     return null; 
   }

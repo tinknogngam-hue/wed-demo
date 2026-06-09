@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Heart, Eye, EyeOff, UserPlus, AlertCircle } from 'lucide-react';
+import { Heart, Eye, EyeOff, UserPlus, AlertCircle, Smartphone, CalendarDays, Bell } from 'lucide-react';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -33,13 +33,13 @@ export default function SignUpPage() {
 
         <div className="w-full space-y-5">
           {[
-            { icon: '📱', label: 'Pet Health Records', desc: 'Access medical history & vaccine records anytime' },
-            { icon: '📅', label: 'Easy Appointments', desc: 'Book and manage your visits seamlessly' },
-            { icon: '🔔', label: 'Smart Reminders', desc: 'Get notified for upcoming appointments & vaccines' },
-          ].map(({ icon, label, desc }) => (
+            { icon: Smartphone,   label: 'Pet Health Records', desc: 'Access medical history & vaccine records anytime' },
+            { icon: CalendarDays, label: 'Easy Appointments',  desc: 'Book and manage your visits seamlessly' },
+            { icon: Bell,         label: 'Smart Reminders',    desc: 'Get notified for upcoming appointments & vaccines' },
+          ].map(({ icon: Icon, label, desc }) => (
             <div key={label} className="flex items-start gap-3.5">
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-sm">
-                {icon}
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <Icon size={16} />
               </div>
               <div>
                 <p className="m-0 font-bold text-[14px]">{label}</p>

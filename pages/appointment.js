@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import { Plus, Search } from 'lucide-react';
 
 export default function AppointmentPage() {
   const [view, setView] = useState('monthly');
@@ -132,7 +133,7 @@ function DailyView() {
       <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] flex flex-col overflow-hidden">
         <div className="p-[20px_24px] border-b border-[#e3edf3] bg-[#fbfdfe] shrink-0">
           <h3 className="m-0 text-[18px] font-bold text-[#102a43] flex items-center gap-2">
-            <span className="text-[#0f8f83]">➕</span> New Appointment
+            <Plus size={16} className="text-[#0f8f83] shrink-0" /> New Appointment
           </h3>
         </div>
 
@@ -141,7 +142,7 @@ function DailyView() {
             <label className="text-[12px] font-bold text-[#64788a]">Client / Owner *</label>
             <div className="relative">
               <input placeholder="Search phone or name..." className="w-full border border-[#e3edf3] rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none focus:border-[#0f8f83]" />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0b2c3]">🔎</span>
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0b2c3]" />
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 ﻿// src/pages/pharmacy.js
 import React, { useState } from 'react';
+import { X, Search, ClipboardList, FileText, Dog, Pill, AlertTriangle, Printer, Camera, Download, CheckCircle2, Scale, Calculator } from 'lucide-react';
 
 // ข้อมูลจำลองสำหรับคลังยา (Drug Master Data)
 const mockDrugMaster = [
@@ -29,7 +30,7 @@ export default function PharmacyPage() {
       {toastMsg && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 animate-fadeIn">
           <span className="font-bold">{toastMsg}</span>
-          <button onClick={() => setToastMsg('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2">✕</button>
+          <button onClick={() => setToastMsg('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
         </div>
       )}
 
@@ -39,8 +40,8 @@ export default function PharmacyPage() {
           <h2 className="m-0 text-[26px] md:text-[28px] font-bold text-[#102a43]">Pharmacy & Dispensing</h2>
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบห้องยา จ่ายยา พิมพ์ฉลาก และตัดสต๊อกอัตโนมัติ</p>
         </div>
-        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full md:w-[350px] lg:w-[450px]">
-          🔎 Search patient / MRN / prescription no. / drug name
+        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full md:w-[350px] lg:w-[450px] flex items-center gap-2">
+          <Search size={14} className="shrink-0 text-[#9ab0bc]" /> Search patient / MRN / prescription no. / drug name
         </div>
       </div>
 
@@ -54,13 +55,13 @@ export default function PharmacyPage() {
             onClick={() => setPharmacyView(pharmacyView === 'pending' ? 'master' : 'pending')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${pharmacyView === 'master' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            {pharmacyView === 'master' ? '📋 View Prescriptions Queue' : '📑 Drug Master'}
+            {pharmacyView === 'master' ? <><ClipboardList size={14} className="inline mr-1.5" /> View Prescriptions Queue</> : <><FileText size={14} className="inline mr-1.5" /> Drug Master</>}
           </button>
           <button 
             onClick={() => setPharmacyView('scan')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${pharmacyView === 'scan' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            🔍 Scan Prescription
+            <Search size={14} className="inline mr-1.5" /> Scan Prescription
           </button>
           <button 
             onClick={() => setPharmacyView('manual')}
@@ -84,18 +85,18 @@ export default function PharmacyPage() {
               <div className="p-5 md:p-[20px_24px] border-b border-[#e3edf3] bg-[#fbfdfe] shrink-0">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-[11px] text-lg font-[900] text-[#102a43]">
-                    <div className="w-9 h-9 rounded-xl grid place-items-center bg-[#e9f7f4] text-[#0f8f83] text-lg">💊</div> 
+                    <div className="w-9 h-9 rounded-xl grid place-items-center bg-[#e9f7f4] text-[#0f8f83]"><Pill size={18} /></div>
                     Prescription: RX-2405012
                   </div>
                   <span className="px-3 py-1.5 bg-[#fff4e2] text-[#b86b00] rounded-full text-xs font-bold">Waiting to Dispense</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="w-[60px] h-[60px] rounded-[18px] bg-[#fff1d8] grid place-items-center text-[34px] shrink-0 self-center sm:self-start">🐶</div>
+                  <div className="w-[60px] h-[60px] rounded-[18px] bg-[#fff1d8] grid place-items-center shrink-0 self-center sm:self-start"><Dog size={32} className="text-[#b45309]" /></div>
                   <div className="flex-1 w-full">
                     <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4">
                       <div>
-                        <h3 className="m-0 text-[18px] text-[#102a43]">Lucky ♂</h3>
+                        <h3 className="m-0 text-[18px] text-[#102a43] flex items-center gap-2">Lucky <span className="text-[#3b82f6] text-[11px] font-bold border border-[#3b82f6] px-1 py-0.5 rounded">M</span></h3>
                         <p className="m-0 mt-1 text-[13px] text-[#64788a]">Golden Retriever · 5Y 2M · <b className="text-[#0f8f83]">32.5 kg</b></p>
                       </div>
                       <div className="text-left sm:text-right">
@@ -104,7 +105,7 @@ export default function PharmacyPage() {
                       </div>
                     </div>
                     <div className="mt-3 bg-[#fff0f0] border border-[#fcd5d5] text-[#e95050] px-3 py-2 rounded-lg text-[13px] font-bold flex items-center gap-2">
-                      <span>⚠️</span> Allergy Alert: Penicillin (Severe Rash / Anaphylaxis)
+                      <AlertTriangle size={14} className="inline text-red-500 mr-1" /> Allergy Alert: Penicillin (Severe Rash / Anaphylaxis)
                     </div>
                   </div>
                 </div>
@@ -130,7 +131,7 @@ export default function PharmacyPage() {
                       <td className="py-4 text-[13px] text-[#102a43]">กินครั้งละ <b>1 เม็ด</b> วันละ 1 ครั้ง (OD)<br/><span className="text-[#64788a]">ระยะเวลา 4 วัน</span></td>
                       <td className="py-4 text-center"><b className="text-[16px] text-[#102a43]">4</b> <small className="text-[#64788a]">Tab</small></td>
                       <td className="py-4 text-center">
-                        <button onClick={() => triggerToast('🖨️ กำลังพิมพ์ฉลากยา: Maropitant สำหรับ Lucky...')} className="border border-[#0f8f83] text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer">🖨️ Print</button>
+                        <button onClick={() => triggerToast('กำลังพิมพ์ฉลากยา: Maropitant สำหรับ Lucky...')} className="border border-[#0f8f83] text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer"><Printer size={13} className="inline mr-1.5" /> Print</button>
                       </td>
                     </tr>
                     <tr className="border-b border-[#e3edf3] group">
@@ -141,7 +142,7 @@ export default function PharmacyPage() {
                       <td className="py-4 text-[13px] text-[#102a43]">กินครั้งละ <b>1 แคปซูล</b> วันละ 1 ครั้ง ก่อนอาหารเช้า<br/><span className="text-[#64788a]">ระยะเวลา 7 วัน</span></td>
                       <td className="py-4 text-center"><b className="text-[16px] text-[#102a43]">7</b> <small className="text-[#64788a]">Cap</small></td>
                       <td className="py-4 text-center">
-                        <button onClick={() => triggerToast('🖨️ กำลังพิมพ์ฉลากยา: Omeprazole สำหรับ Lucky...')} className="border border-[#0f8f83] text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer">🖨️ Print</button>
+                        <button onClick={() => triggerToast('กำลังพิมพ์ฉลากยา: Omeprazole สำหรับ Lucky...')} className="border border-[#0f8f83] text-[#0f8f83] bg-[#e9f7f4] px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-[#0f8f83] hover:text-white transition-colors cursor-pointer"><Printer size={13} className="inline mr-1.5" /> Print</button>
                       </td>
                     </tr>
                   </tbody>
@@ -150,8 +151,8 @@ export default function PharmacyPage() {
 
               {/* Action Bar */}
               <div className="flex justify-between items-center p-4 md:p-[18px_24px] border-t border-[#e3edf3] bg-[#fbfdfe] shrink-0 gap-2">
-                <button onClick={() => triggerToast('🖨️ พิมพ์ฉลากยาทุกรายการในใบสั่งยานี้เรียบร้อย')} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-gray-50 transition-colors shrink-0">🖨️ Print All Labels</button>
-                <button onClick={() => triggerToast('✅ จ่ายยาเสร็จสิ้น ระบบตัดยอดสต๊อกคลังยาและส่งบิลไปฝ่ายการเงินแล้ว')} className="border-0 rounded-xl px-[20px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm flex items-center gap-2 hover:opacity-90 transition-opacity">Confirm Dispense & Deduct Stock <span>→</span></button>
+                <button onClick={() => triggerToast('พิมพ์ฉลากยาทุกรายการในใบสั่งยานี้เรียบร้อย')} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-gray-50 transition-colors shrink-0"><Printer size={13} className="inline mr-1.5" /> Print All Labels</button>
+                <button onClick={() => triggerToast('จ่ายยาเสร็จสิ้น ระบบตัดยอดสต๊อกคลังยาและส่งบิลไปฝ่ายการเงินแล้ว')} className="border-0 rounded-xl px-[20px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm flex items-center gap-2 hover:opacity-90 transition-opacity">Confirm Dispense & Deduct Stock <span>→</span></button>
               </div>
             </div>
           )}
@@ -160,8 +161,8 @@ export default function PharmacyPage() {
           {pharmacyView === 'master' && (
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-5 md:p-6 animate-fadeIn">
               <div className="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
-                <h3 className="m-0 text-lg font-bold text-[#102a43]">📑 ระบบสารบบและทะเบียนข้อมูลยาโรงพยาบาล (Drug Master List)</h3>
-                <button onClick={() => triggerToast('➕ เปิดฟอร์มลงทะเบียนยาตัวใหม่เข้าระบบ')} className="bg-[#0f8f83] text-white px-4 py-2 rounded-xl text-xs font-bold border-0 cursor-pointer">+ ขึ้นทะเบียนยาใหม่</button>
+                <h3 className="m-0 text-lg font-bold text-[#102a43]"><FileText size={18} className="inline mr-2 text-[#0f8f83]" />ระบบสารบบและทะเบียนข้อมูลยาโรงพยาบาล (Drug Master List)</h3>
+                <button onClick={() => triggerToast('เปิดฟอร์มลงทะเบียนยาตัวใหม่เข้าระบบ')} className="bg-[#0f8f83] text-white px-4 py-2 rounded-xl text-xs font-bold border-0 cursor-pointer">+ ขึ้นทะเบียนยาใหม่</button>
               </div>
               <div className="flex-1 overflow-auto">
                 <table className="w-full text-left text-xs border-collapse min-w-[700px]">
@@ -189,7 +190,7 @@ export default function PharmacyPage() {
           {pharmacyView === 'scan' && (
             <div className="flex-1 p-5 md:p-6 flex flex-col items-center justify-center text-center animate-fadeIn">
               <div className="w-full max-w-sm border-2 border-dashed border-[#0f8f83] bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center shadow-inner">
-                <span className="text-5xl mb-4">📷</span>
+                <Camera size={48} className="mb-4 text-[#9ab0bc]" />
                 <h4 className="text-[#102a43] font-bold m-0 text-base">กำลังจำลองเชื่อมต่อหัวอ่าน Barcode/QR Reader...</h4>
                 <p className="text-xs text-[#64788a] mt-2 mb-6">นำบาร์โค้ดที่อยู่บนแถบหัวกระดาษแผ่นพาสปอร์ตเคสคนไข้ ส่องกับกล้องเพื่อโหลดข้อมูล</p>
                 <input 
@@ -199,11 +200,11 @@ export default function PharmacyPage() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setPharmacyView('pending');
-                      triggerToast(`🔍 ดึงข้อมูลใบสั่งยาเลขที่ ${e.target.value} สำเร็จ!`);
+                      triggerToast(`ดึงข้อมูลใบสั่งยาเลขที่ ${e.target.value} สำเร็จ!`);
                     }
                   }}
                 />
-                <button onClick={() => { setPharmacyView('pending'); triggerToast('🔍 ดึงข้อมูลคิวจำลอง RX-2405012 เรียบร้อย'); }} className="w-full bg-[#0f8f83] text-white py-2 rounded-xl text-xs font-black border-0 cursor-pointer shadow-sm">จำลองการยิงสแกนบาร์โค้ด</button>
+                <button onClick={() => { setPharmacyView('pending'); triggerToast('ดึงข้อมูลคิวจำลอง RX-2405012 เรียบร้อย'); }} className="w-full bg-[#0f8f83] text-white py-2 rounded-xl text-xs font-black border-0 cursor-pointer shadow-sm">จำลองการยิงสแกนบาร์โค้ด</button>
               </div>
             </div>
           )}
@@ -211,8 +212,8 @@ export default function PharmacyPage() {
           {/* VIEW 4: หน้าจอฟอร์มการคีย์สั่งจ่ายยาด้วยตนเองด่วน (MANUAL DISPENSE) */}
           {pharmacyView === 'manual' && (
             <div className="flex-1 p-5 md:p-6 overflow-y-auto animate-fadeIn">
-              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2">📥 คีย์รายการจ่ายยา/เวชภัณฑ์ด่วนหน้าห้องยา (Manual Dispense Entry)</h3>
-              <form onSubmit={(e) => { e.preventDefault(); setPharmacyView('pending'); triggerToast('✅ บันทึกใบจ่ายยาฉุกเฉินเข้าระบบส่วนกลางสำเร็จ'); }} className="space-y-4 max-w-xl text-sm">
+              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2"><Download size={18} className="inline mr-2 text-[#0f8f83]" />คีย์รายการจ่ายยา/เวชภัณฑ์ด่วนหน้าห้องยา (Manual Dispense Entry)</h3>
+              <form onSubmit={(e) => { e.preventDefault(); setPharmacyView('pending'); triggerToast('บันทึกใบจ่ายยาฉุกเฉินเข้าระบบส่วนกลางสำเร็จ'); }} className="space-y-4 max-w-xl text-sm">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5">
                     <label className="font-bold text-[#35546a]">ระบุชื่อคนไข้ หรือรหัส MRN *</label>
@@ -246,7 +247,7 @@ export default function PharmacyPage() {
           {/* Dose Calculator */}
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] p-5 shrink-0">
             <div className="flex items-center gap-2 mb-4 text-lg font-bold text-[#102a43]">
-              <div className="w-8 h-8 rounded-lg bg-[#eef4f7] text-[#35546a] grid place-items-center text-sm">⚖️</div>
+              <div className="w-8 h-8 rounded-lg bg-[#eef4f7] text-[#35546a] grid place-items-center"><Scale size={16} /></div>
               Dose Calculator
             </div>
             
@@ -265,7 +266,7 @@ export default function PharmacyPage() {
                 <label className="text-[12px] font-bold text-[#64788a]">Concentration (mg/tab or mg/ml)</label>
                 <input placeholder="e.g. 100" className="border border-[#e3edf3] rounded-lg px-3 py-2 text-sm outline-none text-[#102a43]" />
               </div>
-              <button onClick={() => triggerToast('📐 ระบบคำนวณโดสยาสำเร็จ: แนะนำให้ยาคนไข้ขนาด 0.5 เม็ด')} className="w-full border border-[#e3edf3] rounded-lg py-2.5 text-[13px] font-bold bg-[#f6f9fb] text-[#35546a] hover:bg-[#e3edf3] transition-colors mt-2 cursor-pointer">
+              <button onClick={() => triggerToast('ระบบคำนวณโดสยาสำเร็จ: แนะนำให้ยาคนไข้ขนาด 0.5 เม็ด')} className="w-full border border-[#e3edf3] rounded-lg py-2.5 text-[13px] font-bold bg-[#f6f9fb] text-[#35546a] hover:bg-[#e3edf3] transition-colors mt-2 cursor-pointer">
                 Calculate Dose
               </button>
             </div>
@@ -276,11 +277,11 @@ export default function PharmacyPage() {
             <h3 className="m-0 mb-4 text-[16px] font-bold text-[#102a43]">Stock Quick View</h3>
             <div className="relative mb-4">
               <input placeholder="Search drug inventory..." className="w-full border border-[#e3edf3] rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none" />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0b2c3]">🔎</span>
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a0b2c3]" />
             </div>
             
             <div className="space-y-2">
-              <div onClick={() => triggerToast('🔍 เปิดรายละเอียดล็อตและวันหมดอายุของ Maropitant 16mg')} className="p-3 border border-[#e3edf3] rounded-xl flex justify-between items-center bg-[#fbfdfe] hover:border-[#0f8f83] transition-colors cursor-pointer">
+              <div onClick={() => triggerToast('เปิดรายละเอียดล็อตและวันหมดอายุของ Maropitant 16mg')} className="p-3 border border-[#e3edf3] rounded-xl flex justify-between items-center bg-[#fbfdfe] hover:border-[#0f8f83] transition-colors cursor-pointer">
                 <div>
                   <b className="text-[13px] text-[#102a43]">Maropitant 16mg</b>
                   <span className="block text-[11px] text-[#64788a]">Lot: L2024-05 • Exp: 12/2025</span>
@@ -291,7 +292,7 @@ export default function PharmacyPage() {
                 </div>
               </div>
               
-              <div onClick={() => triggerToast('🔍 เปิดรายละเอียดล็อตและวันหมดอายุของ Omeprazole 20mg')} className="p-3 border border-[#e3edf3] rounded-xl flex justify-between items-center bg-[#fbfdfe] hover:border-[#0f8f83] transition-colors cursor-pointer">
+              <div onClick={() => triggerToast('เปิดรายละเอียดล็อตและวันหมดอายุของ Omeprazole 20mg')} className="p-3 border border-[#e3edf3] rounded-xl flex justify-between items-center bg-[#fbfdfe] hover:border-[#0f8f83] transition-colors cursor-pointer">
                 <div>
                   <b className="text-[13px] text-[#102a43]">Omeprazole 20mg</b>
                   <span className="block text-[11px] text-[#64788a]">Lot: A119-2 • Exp: 08/2026</span>

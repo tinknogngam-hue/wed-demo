@@ -1,5 +1,6 @@
 ﻿// src/pages/imaging.js
 import React, { useState } from 'react';
+import { Search, ScanLine, Upload, Settings, Plus, Dog, Cat, ZoomIn, Ruler, Shuffle, Contrast, FileText, Save, FolderOpen, Radio, Folder, X } from 'lucide-react';
 
 // ข้อมูลจำลองสำหรับผู้ป่วยทางรังสีวิทยา (Mock Radiology Worklist Data)
 const mockOrders = {
@@ -17,7 +18,7 @@ const mockOrders = {
       study: 'Thorax AP/LAT (2 Views)',
       reason: 'Coughing, R/O Pneumonia',
       kvp: '80', mas: '5', thk: '15cm',
-      images: { ap: '🩻 Canine Thorax AP (Image 1/2)', lat: '🦴 Canine Thorax LAT (Image 2/2)' },
+      images: { ap: 'Canine Thorax AP (Image 1/2)', lat: 'Canine Thorax LAT (Image 2/2)' },
       findings: 'Cardiac silhouette is normal in size and shape. Pulmonary vasculature appears unremarkable. No evidence of alveolar or interstitial infiltrates. Pleural space is clear.',
       impression: '1. Unremarkable thoracic radiographs. No signs of active pneumonia.'
     },
@@ -34,7 +35,7 @@ const mockOrders = {
       study: 'Whole Abdomen US',
       reason: 'Chronic vomiting, CKD check',
       kvp: 'Freq: 12MHz', mas: 'Gain: 55', thk: 'Depth: 4cm',
-      images: { ap: '🍏 Kidneys & Bladder US Scan', lat: '🌀 Hepatic & Splenic Parenchyma' },
+      images: { ap: 'Kidneys & Bladder US Scan', lat: 'Hepatic & Splenic Parenchyma' },
       findings: 'Both kidneys appear smaller in size with irregular margins. Loss of corticomedullary differentiation noted. Mild mineralization in the left renal pelvis.',
       impression: '1. Bilateral chronic renal parenchymal disease, consistent with IRIS CKD Staging.'
     }
@@ -53,7 +54,7 @@ const mockOrders = {
       study: 'Spine AP/LAT (Thoracolumbar)',
       reason: 'Hindlimb weakness, Pain evaluation',
       kvp: '75', mas: '4', thk: '10cm',
-      images: { ap: '🦴 Spine Vertebrae AP Line', lat: '🩻 Lateral Intervertebral Disc Space' },
+      images: { ap: 'Spine Vertebrae AP Line', lat: 'Lateral Intervertebral Disc Space' },
       findings: 'Narrowing of the intervertebral disc spaces at T13-L1 and L1-L2. Sclerosis of the adjacent vertebral endplates. Mild osteophyte formation.',
       impression: '1. Intervertebral Disc Disease (IVDD) at thoracolumbar junction.'
     }
@@ -132,7 +133,7 @@ export default function ImagingPage() {
     if (reportTemplates[val]) {
       setReportFindings(reportTemplates[val].findings);
       setReportImpression(reportTemplates[val].impression);
-      triggerToast(`📋 ปรับใช้เทมเพลตรายงานรูปแบบ ${val.toUpperCase()} เรียบร้อย`);
+      triggerToast(`ปรับใช้เทมเพลตรายงานรูปแบบ ${val.toUpperCase()} เรียบร้อย`);
     }
   };
 
@@ -153,7 +154,7 @@ export default function ImagingPage() {
       study: newOrder.study,
       reason: newOrder.reason || '-',
       kvp: '70', mas: '4', thk: '12cm',
-      images: { ap: '🩻 Custom Transverse View AP', lat: '🦴 Custom Sagittal View LAT' },
+      images: { ap: 'Custom Transverse View AP', lat: 'Custom Sagittal View LAT' },
       findings: 'No significant abnormalities detected within the visualized structures.',
       impression: '1. Unremarkable radiographic evaluation.'
     };
@@ -164,7 +165,7 @@ export default function ImagingPage() {
     setWorklistStatus('pending');
     handleSelectOrder(createdItem);
     setNewOrder({ petName: '', mrn: '', modality: 'DX (X-Ray)', study: '', reason: '' });
-    triggerToast('➕ สร้างใบคำสั่งสั่งถ่ายภาพเข้าระบบคิวหลักสำเร็จ');
+    triggerToast('สร้างใบคำสั่งสั่งถ่ายภาพเข้าระบบคิวหลักสำเร็จ');
   };
 
   const currentList = mockOrders[worklistStatus] || [];
@@ -177,7 +178,7 @@ export default function ImagingPage() {
       {toastAlert && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 animate-fadeIn">
           <span className="font-bold">{toastAlert}</span>
-          <button onClick={() => setToastAlert('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2">✕</button>
+          <button onClick={() => setToastAlert('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
         </div>
       )}
 
@@ -187,8 +188,9 @@ export default function ImagingPage() {
           <h2 className="m-0 text-[26px] md:text-[28px] font-bold text-[#102a43]">Imaging & Radiology</h2>
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบเอกซเรย์ อัลตราซาวด์ และการอ่านผล (PACS Integration)</p>
         </div>
-        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full">
-          <input type="text" placeholder="🔎 Search patient / MRN / Accession No. / Modality..." className="w-full bg-transparent border-0 outline-none" />
+        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full flex items-center gap-2">
+          <Search size={14} className="shrink-0 text-[#9ab0bc]" />
+          <input type="text" placeholder="Search patient / MRN / Accession No. / Modality..." className="w-full bg-transparent border-0 outline-none" />
         </div>
       </div>
 
@@ -202,25 +204,25 @@ export default function ImagingPage() {
             onClick={() => setCurrentView('worklist')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'worklist' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            🩻 Modality Worklist
+            <ScanLine size={14} className="inline mr-1.5" /> Modality Worklist
           </button>
           <button 
             onClick={() => setCurrentView('upload')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'upload' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📥 Upload DICOM
+            <Upload size={14} className="inline mr-1.5" /> Upload DICOM
           </button>
           <button 
             onClick={() => setCurrentView('setup')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'setup' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            ⚙️ Modality Setup
+            <Settings size={14} className="inline mr-1.5" /> Modality Setup
           </button>
           <button 
             onClick={() => setIsOrderModalOpen(true)} 
             className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 flex items-center gap-2"
           >
-            <span>➕</span> New Order
+            <Plus size={14} /> New Order
           </button>
         </div>
       </div>
@@ -255,7 +257,7 @@ export default function ImagingPage() {
                       <span className={`text-[11px] font-bold ${order.priority === 'STAT' ? 'text-[#e95050]' : 'text-[#64788a]'}`}>{order.priority === 'STAT' ? 'STAT' : order.time}</span>
                     </div>
                     <div className="flex gap-3">
-                      <div className="w-[42px] h-[42px] rounded-lg bg-[#fff1d8] grid place-items-center text-[22px] shrink-0">{order.species.includes('Cat') ? '🐱' : '🐶'}</div>
+                      <div className="w-[42px] h-[42px] rounded-lg bg-[#fff1d8] grid place-items-center shrink-0">{order.species.includes('Cat') ? <Cat size={20} className="text-[#7c3aed]" /> : <Dog size={20} className="text-[#b45309]" />}</div>
                       <div><b className="text-[14px] text-[#102a43] block">{order.pet} ({order.breed})</b><span className="text-[12px] text-[#64788a]">MRN: {order.mrn} • {order.age}</span></div>
                     </div>
                     <div className="mt-2 text-[13px] text-[#35546a] border-t border-[#e3edf3] pt-2">
@@ -276,15 +278,22 @@ export default function ImagingPage() {
                       <span><b className="text-white">Study:</b> {activeOrder.study}</span>
                     </div>
                     <div className="flex gap-1">
-                      {['🌗', '🔍', '📐', '🔀'].map((icon, idx) => (
-                        <button key={idx} onClick={() => triggerToast(`🛠️ เปิดเครื่องมือแต่งภาพ [${icon}]`)} className="text-white/70 hover:text-white bg-transparent hover:bg-[#374151] p-1.5 border-0 rounded-lg transition-colors cursor-pointer text-sm">{icon}</button>
+                      {[
+                        { Icon: Contrast,  label: 'Brightness/Contrast' },
+                        { Icon: ZoomIn,    label: 'Zoom' },
+                        { Icon: Ruler,     label: 'Measure' },
+                        { Icon: Shuffle,   label: 'Flip' },
+                      ].map(({ Icon, label }, idx) => (
+                        <button key={idx} onClick={() => triggerToast(`เปิดเครื่องมือแต่งภาพ [${label}]`)} className="text-white/70 hover:text-white bg-transparent hover:bg-[#374151] p-1.5 border-0 rounded-lg transition-colors cursor-pointer">
+                          <Icon size={16} />
+                        </button>
                       ))}
                     </div>
                   </div>
                   <div className="flex-1 relative flex items-center justify-center p-4 min-h-0">
                     <div className="absolute top-4 left-4 text-[#9ca3af] text-[11px] font-mono leading-tight bg-[#111827]/60 p-1.5 rounded-lg">kVp: {activeOrder.kvp}<br/>mAs: {activeOrder.mas}<br/>Thk: {activeOrder.thk}</div>
                     <div className="w-[85%] sm:w-[70%] h-[80%] border border-[#374151] bg-[#1f2937] flex flex-col items-center justify-center rounded-xl opacity-90 shadow-2xl">
-                      <span className="text-[54px] md:text-[64px] mb-3 drop-shadow-lg">🩻</span>
+                      <ScanLine size={64} className="mb-3 text-[#5c6bc0] opacity-60" />
                       <span className="text-white font-bold text-center text-xs md:text-sm px-4">{viewOrientation === 'ap' ? activeOrder.images.ap : activeOrder.images.lat}</span>
                     </div>
                     <div className="absolute bottom-4 left-4 flex gap-2 shrink-0">
@@ -296,7 +305,7 @@ export default function ImagingPage() {
 
                 <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-md h-[290px] flex flex-col shrink-0 overflow-hidden">
                   <div className="p-3 md:p-[12px_20px] border-b border-[#e3edf3] bg-[#fbfdfe] flex justify-between items-center shrink-0 gap-2">
-                    <h3 className="m-0 text-[15px] font-bold text-[#102a43]">📝 Radiology Report</h3>
+                    <h3 className="m-0 text-[15px] font-bold text-[#102a43]"><FileText size={15} className="inline mr-2 text-[#0f8f83]" />Radiology Report</h3>
                     <select onChange={handleApplyTemplate} className="border border-[#e3edf3] rounded-lg px-2 py-1.5 text-xs bg-white outline-none text-[#35546a] font-bold cursor-pointer hover:bg-gray-50">
                       <option value="">-- Quick Template --</option>
                       <option value="normal">Normal Findings</option>
@@ -311,8 +320,8 @@ export default function ImagingPage() {
                   <div className="p-3 md:p-[12px_20px] border-t border-[#e3edf3] bg-[#fbfdfe] flex justify-between items-center shrink-0">
                     <span className="text-[12px] text-[#64788a]">Status: <b className={`ml-1 font-bold ${reportStatus === 'Completed' ? 'text-[#0f9f6e]' : 'text-[#b86b00]'}`}>{reportStatus}</b></span>
                     <div className="flex gap-2">
-                      <button onClick={() => { setReportStatus('Draft'); triggerToast('💾 บันทึกแบบร่างผลอ่านสำเร็จ'); }} className="border border-[#e3edf3] rounded-xl px-3.5 py-2 font-[850] text-xs bg-white text-[#35546a] hover:bg-[#f6f9fb]">Save Draft</button>
-                      <button onClick={() => { setReportStatus('Completed'); triggerToast(`🎉 อนุมัติรายงานผลรังสีเคส ${activeOrder.id} เข้าระบบประวัติเสร็จสิ้น`); }} className="border-0 rounded-xl px-4 py-2 font-[850] bg-[#0f9f6e] text-white text-xs shadow-sm hover:opacity-90">Sign Report</button>
+                      <button onClick={() => { setReportStatus('Draft'); triggerToast('บันทึกแบบร่างผลอ่านสำเร็จ'); }} className="border border-[#e3edf3] rounded-xl px-3.5 py-2 font-[850] text-xs bg-white text-[#35546a] hover:bg-[#f6f9fb]">Save Draft</button>
+                      <button onClick={() => { setReportStatus('Completed'); triggerToast(`อนุมัติรายงานผลรังสีเคส ${activeOrder.id} เข้าระบบประวัติเสร็จสิ้น`); }} className="border-0 rounded-xl px-4 py-2 font-[850] bg-[#0f9f6e] text-white text-xs shadow-sm hover:opacity-90">Sign Report</button>
                     </div>
                   </div>
                 </div>
@@ -326,11 +335,11 @@ export default function ImagingPage() {
         {/* VIEW MODE 2: หน้าอัปโหลดไฟล์ฟิล์มอิสระ (UPLOAD DICOM REPOSITORY) */}
         {currentView === 'upload' && (
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-sm p-5 md:p-6 h-full flex flex-col overflow-hidden animate-fadeIn">
-            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43] border-b pb-3 shrink-0">📥 นำเข้าไฟล์ภาพมาตรฐานการแพทย์ (DICOM File Uploader Terminal)</h3>
+            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43] border-b pb-3 shrink-0"><Upload size={18} className="inline mr-2 text-[#0f8f83]" />นำเข้าไฟล์ภาพมาตรฐานการแพทย์ (DICOM File Uploader Terminal)</h3>
             <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-5 flex-1 min-h-0 overflow-hidden">
               {/* โซน Drag & Drop อัปโหลด */}
-              <div onClick={() => triggerToast('📂 เปิดระบบเรียกดูไฟล์ระบบคอมพิวเตอร์ของคุณเพื่อเลือกรูปภาพ...')} className="border-2 border-dashed border-[#0f8f83] bg-gray-50/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-inner cursor-pointer hover:bg-gray-50 transition-colors h-48 md:h-full">
-                <span className="text-4xl mb-2">📁</span>
+              <div onClick={() => triggerToast('เปิดระบบเรียกดูไฟล์ระบบคอมพิวเตอร์ของคุณเพื่อเลือกรูปภาพ...')} className="border-2 border-dashed border-[#0f8f83] bg-gray-50/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-inner cursor-pointer hover:bg-gray-50 transition-colors h-48 md:h-full">
+                <FolderOpen size={40} className="mb-2 text-[#9ab0bc]" />
                 <b className="text-sm text-[#102a43] block">Drag & Drop DICOM Files</b>
                 <p className="text-xs text-[#64788a] mt-1 m-0">หรือคลิกบริเวณนี้เพื่อเลือกไฟล์นามสกุล .dcm จากเครื่องคอมพิวเตอร์</p>
               </div>
@@ -363,7 +372,7 @@ export default function ImagingPage() {
         {/* VIEW MODE 3: หน้าตั้งค่าพอร์ตพารามิเตอร์ระบบเครื่องจักร (MODALITY SETUP) */}
         {currentView === 'setup' && (
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-sm p-5 md:p-6 h-full flex flex-col overflow-hidden animate-fadeIn">
-            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43] border-b pb-3 shrink-0">⚙️ การเชื่อมต่อโหนดและเครื่องรับส่งสัญญาณภาพรังสี (Modality PACS Configuration)</h3>
+            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43] border-b pb-3 shrink-0"><Settings size={18} className="inline mr-2 text-[#0f8f83]" />การเชื่อมต่อโหนดและเครื่องรับส่งสัญญาณภาพรังสี (Modality PACS Configuration)</h3>
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_350px] gap-6 flex-1 min-h-0 overflow-hidden">
               {/* ตารางแสดงเครื่องจักรหลัก */}
               <div className="overflow-auto border rounded-xl bg-white h-full">
@@ -387,9 +396,9 @@ export default function ImagingPage() {
               </div>
               {/* ฟอร์มสั้นขวามือสั่ง Ping ทราฟฟิกทดสอบโหนดเชื่อมโยง */}
               <div className="bg-gray-50 rounded-2xl p-4 border text-xs space-y-3 shrink-0 h-fit">
-                <b className="text-sm font-bold text-[#102a43] block border-b pb-1.5">📡 ทดสอบการส่งสัญญาณเครือข่าย (C-ECHO Ping)</b>
+                <b className="text-sm font-bold text-[#102a43] block border-b pb-1.5"><Radio size={14} className="inline mr-1.5 text-[#0f8f83]" />ทดสอบการส่งสัญญาณเครือข่าย (C-ECHO Ping)</b>
                 <div className="flex flex-col gap-1"><label className="font-bold text-gray-600">เลือกโหนดเครื่องส่งสัญญาณ</label><select className="border p-2 rounded-lg bg-white font-medium outline-none"><option>PACS_DR01 (เครื่องเอกซเรย์)</option><option>PACS_US02 (เครื่องอัลตราซาวด์)</option></select></div>
-                <button type="button" onClick={() => triggerToast('📡 ส่งสัญญาณทดสอบ DICOM Verification C-ECHO SUCCESS! โหนดปลายทางทำงานปกติ')} className="w-full bg-[#102a43] text-white py-2 rounded-xl font-bold border-0 cursor-pointer shadow-sm">ส่งคำสั่งทดสอบ (Verify Connection)</button>
+                <button type="button" onClick={() => triggerToast('ส่งสัญญาณทดสอบ DICOM Verification C-ECHO SUCCESS! โหนดปลายทางทำงานปกติ')} className="w-full bg-[#102a43] text-white py-2 rounded-xl font-bold border-0 cursor-pointer shadow-sm">ส่งคำสั่งทดสอบ (Verify Connection)</button>
               </div>
             </div>
           </div>
@@ -401,7 +410,7 @@ export default function ImagingPage() {
       {isOrderModalOpen && (
         <div className="fixed inset-0 z-50 bg-[#102a43]/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-[#e3edf3] rounded-2xl w-full max-w-md shadow-2xl p-6 animate-scaleIn">
-            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]">➕ ออกใบส่งตรวจทางรังสีวิทยาและภาพถ่ายใหม่</h3>
+            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]"><Plus size={18} className="inline mr-2 text-[#0f8f83]" />ออกใบส่งตรวจทางรังสีวิทยาและภาพถ่ายใหม่</h3>
             <form onSubmit={handleCreateOrder} className="space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1"><label className="font-bold text-[#35546a]">ชื่อสัตว์เลี้ยง *</label><input required type="text" placeholder="เช่น บราวนี่" value={newOrder.petName} onChange={(e) => setNewOrder({ ...newOrder, petName: e.target.value })} className="border border-[#e3edf3] rounded-xl p-2.5 outline-none text-[#102a43]" /></div>

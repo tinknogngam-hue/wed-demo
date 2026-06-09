@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { Search, Package, Download, RefreshCw, Plus, AlertTriangle, TrendingDown, Truck, FileText } from 'lucide-react';
 
 export default function InventoryPage() {
   return (
@@ -9,16 +10,16 @@ export default function InventoryPage() {
           <h2 className="m-0 text-[28px] font-bold text-[#102a43]">Inventory & Stock</h2>
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบจัดการคลังยา วัคซีน อาหารสัตว์ และเวชภัณฑ์</p>
         </div>
-        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm">
-          🔎 Search SKU / item name / lot no. / category...
+        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm flex items-center gap-2">
+          <Search size={14} className="shrink-0" /> Search SKU / item name / lot no. / category...
         </div>
         <div className="flex items-center justify-end gap-3">
           <div className="text-right text-sm">
             <b className="text-[#102a43]">นาย สต๊อก รักษาดี</b><br />
             <small className="text-[#64788a]">Inventory Manager</small>
           </div>
-          <div className="w-[42px] h-[42px] rounded-full bg-[#f4fbff] grid place-items-center text-[21px]">
-            📦
+          <div className="w-[42px] h-[42px] rounded-full bg-[#f4fbff] grid place-items-center">
+            <Package size={20} className="text-[#0f8f83]" />
           </div>
         </div>
       </div>
@@ -27,14 +28,14 @@ export default function InventoryPage() {
       <div className="flex items-center justify-between mb-3.5 shrink-0">
         <div className="text-[13px] text-[#64788a]">Home › Inventory › Stock Overview</div>
         <div className="flex gap-2.5">
-          <button className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
-            📥 Export CSV
+          <button className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] flex items-center gap-2">
+            <Download size={14} /> Export CSV
           </button>
-          <button className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
-            🔄 Stock Count / Audit
+          <button className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] flex items-center gap-2">
+            <RefreshCw size={14} /> Stock Count / Audit
           </button>
           <button className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 flex items-center gap-2">
-            <span>➕</span> Add / Receive Stock
+            <Plus size={14} /> Add / Receive Stock
           </button>
         </div>
       </div>
@@ -199,7 +200,7 @@ export default function InventoryPage() {
           {/* Action Required / Alerts */}
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] p-5 flex-1">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="m-0 text-[16px] font-bold text-[#102a43]">Action Required ⚠️</h3>
+              <h3 className="m-0 text-[16px] font-bold text-[#102a43] flex items-center gap-2">Action Required <AlertTriangle size={16} className="text-[#e95050]" /></h3>
               <a href="#" className="text-[12px] text-[#0f8f83] font-bold no-underline">View All</a>
             </div>
             
@@ -207,7 +208,7 @@ export default function InventoryPage() {
               {/* Alert 1 */}
               <div className="p-3 border border-[#fcd5d5] bg-[#fff0f0] rounded-xl flex justify-between items-center">
                 <div className="flex gap-3 items-center">
-                  <div className="w-8 h-8 rounded-full bg-white text-[#e95050] flex items-center justify-center font-bold text-sm">📉</div>
+                  <div className="w-8 h-8 rounded-full bg-white text-[#e95050] flex items-center justify-center"><TrendingDown size={16} /></div>
                   <div>
                     <b className="text-[13px] text-[#e95050] block">Below Reorder Point</b>
                     <span className="text-[11px] text-[#64788a]">Lactated Ringer's (LRS) 500ml</span>
@@ -238,14 +239,14 @@ export default function InventoryPage() {
               <h3 className="m-0 mb-3 text-[14px] font-bold text-[#102a43]">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-2">
                 <button className="border border-[#e3edf3] rounded-xl p-3 text-[12px] font-[850] text-[#35546a] hover:bg-[#f6f9fb] text-left">
-                  <span className="block text-[16px] mb-1">🚚</span> Receive PO
+                  <Truck size={16} className="block mb-1 text-[#0f8f83]" /> Receive PO
                 </button>
                 <button className="border border-[#e3edf3] rounded-xl p-3 text-[12px] font-[850] text-[#35546a] hover:bg-[#f6f9fb] text-left">
-                  <span className="block text-[16px] mb-1">🔁</span> Transfer Stock
+                  <RefreshCw size={16} className="block mb-1 text-[#0f8f83]" /> Transfer Stock
                 </button>
                 <button className="col-span-2 border border-[#e3edf3] rounded-xl p-3 text-[12px] font-[850] text-[#35546a] hover:bg-[#f6f9fb] text-left flex items-center justify-between">
-                  <div>
-                    <span className="mr-2">📝</span> Adjust Stock (Spoilage/Loss)
+                  <div className="flex items-center gap-2">
+                    <FileText size={14} className="text-[#0f8f83]" /> Adjust Stock (Spoilage/Loss)
                   </div>
                   <span className="text-[#a0b2c3] text-lg">→</span>
                 </button>

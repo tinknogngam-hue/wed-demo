@@ -1,12 +1,13 @@
 ﻿// src/pages/ipd.js
 import React, { useState } from 'react';
+import { X, Search, ClipboardList, BarChart2, Download, Printer, FileText, Pin, Timer, FolderOpen, Plus, Save, CheckCircle2, Dog, Cat, Rabbit, PawPrint, Sparkles, Droplets } from 'lucide-react';
 
 // ข้อมูลจำลองสำหรับ Ward Dashboard (ภาพรวมของกรงทั้งหมดใน Ward A)
 const mockWardCages = [
-  { id: 'ICU-01', pet: 'Lucky', species: '🐶', breed: 'Golden Retriever', status: 'Critical Care', day: 'Day 2', weight: '32.5 kg', diagnosis: 'Post-op FB / Pancreatitis', color: 'bg-[#fff1d8]', text: 'text-[#b86b00]', badge: 'bg-[#e95050] text-white' },
-  { id: 'ICU-02', pet: 'Mochi', species: '🐱', breed: 'Persian Cat', status: 'Stable', day: 'Day 4', weight: '4.2 kg', diagnosis: 'Dehydration / URI', color: 'bg-[#eef4f7]', text: 'text-[#276db6]', badge: 'bg-[#e8f7f1] text-[#0f8d62]' },
-  { id: 'ICU-03', pet: 'Peanut', species: '🐰', breed: 'ND Rabbit', status: 'Monitoring', day: 'Day 1', weight: '1.1 kg', diagnosis: 'GI Stasis', color: 'bg-[#f3f0ff]', text: 'text-[#8b5cf6]', badge: 'bg-[#edf5ff] text-[#276db6]' },
-  { id: 'ICU-04', pet: 'ว่าง (Available)', species: '✨', breed: '-', status: 'Ready to use', day: '-', weight: '-', diagnosis: 'ความสะอาดเรียบร้อยเรียบร้อย', color: 'bg-gray-50', text: 'text-gray-400', badge: 'bg-gray-200 text-gray-600' },
+  { id: 'ICU-01', pet: 'Lucky', species: 'dog', breed: 'Golden Retriever', status: 'Critical Care', day: 'Day 2', weight: '32.5 kg', diagnosis: 'Post-op FB / Pancreatitis', color: 'bg-[#fff1d8]', text: 'text-[#b86b00]', badge: 'bg-[#e95050] text-white' },
+  { id: 'ICU-02', pet: 'Mochi', species: 'cat', breed: 'Persian Cat', status: 'Stable', day: 'Day 4', weight: '4.2 kg', diagnosis: 'Dehydration / URI', color: 'bg-[#eef4f7]', text: 'text-[#276db6]', badge: 'bg-[#e8f7f1] text-[#0f8d62]' },
+  { id: 'ICU-03', pet: 'Peanut', species: 'rabbit', breed: 'ND Rabbit', status: 'Monitoring', day: 'Day 1', weight: '1.1 kg', diagnosis: 'GI Stasis', color: 'bg-[#f3f0ff]', text: 'text-[#8b5cf6]', badge: 'bg-[#edf5ff] text-[#276db6]' },
+  { id: 'ICU-04', pet: 'ว่าง (Available)', species: 'empty', breed: '-', status: 'Ready to use', day: '-', weight: '-', diagnosis: 'ความสะอาดเรียบร้อยเรียบร้อย', color: 'bg-gray-50', text: 'text-gray-400', badge: 'bg-gray-200 text-gray-600' },
 ];
 
 export default function IpdPage() {
@@ -44,7 +45,7 @@ export default function IpdPage() {
     setTasks(tasks.map(t => 
       t.id === id ? { ...t, status: 'done', sign: `สพ.ญ. นัทธสร (${timeString})` } : t
     ));
-    showToast('✅ อัปเดตสถานะและลงบันทึกการรักษาเรียบร้อย!');
+    showToast('อัปเดตสถานะและลงบันทึกการรักษาเรียบร้อย!');
   };
 
   // ฟังก์ชันเพิ่มคำสั่งการรักษาใหม่ (Add Extra Task)
@@ -66,7 +67,7 @@ export default function IpdPage() {
     setTasks(updatedTasks);
     setIsModalOpen(false);
     setNewTask({ time: '12:00', category: 'Med', title: '', dose: '' });
-    showToast('➕ เพิ่มคำสั่งการรักษาพิเศษเข้าสู่โครงตารางแล้ว');
+    showToast('เพิ่มคำสั่งการรักษาพิเศษเข้าสู่โครงตารางแล้ว');
   };
 
   return (
@@ -76,7 +77,7 @@ export default function IpdPage() {
       {notification && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3 rounded-xl shadow-xl flex items-center gap-3 animate-fadeIn">
           <span>{notification}</span>
-          <button onClick={() => setNotification('')} className="bg-transparent border-0 text-white/60 hover:text-white cursor-pointer font-bold">✕</button>
+          <button onClick={() => setNotification('')} className="bg-transparent border-0 text-white/60 hover:text-white cursor-pointer"><X size={14} /></button>
         </div>
       )}
 
@@ -86,8 +87,8 @@ export default function IpdPage() {
           <h2 className="m-0 text-[26px] md:text-[28px] font-bold text-[#102a43]">IPD / ICU Management</h2>
           <p className="m-0 mt-1 text-[#64788a] text-sm">ระบบจัดการสัตว์ป่วยใน กรงพักฟื้น และ Treatment Sheet</p>
         </div>
-        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full md:w-[350px] lg:w-[450px]">
-          🔎 Search patient / MRN / cage no. / ward
+        <div className="bg-white border border-[#e3edf3] rounded-2xl p-[13px_16px] text-[#7a8fa0] shadow-[0_14px_35px_rgba(16,42,67,.07)] text-sm w-full md:w-[350px] lg:w-[450px] flex items-center gap-2">
+          <Search size={14} className="shrink-0" /> Search patient / MRN / cage no. / ward
         </div>
       </div>
 
@@ -101,25 +102,25 @@ export default function IpdPage() {
             onClick={() => setCurrentView('sheet')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'sheet' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📋 Treatment Sheet
+            <ClipboardList size={14} className="inline mr-1.5" /> Treatment Sheet
           </button>
           <button 
             onClick={() => setCurrentView('dashboard')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'dashboard' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📊 Ward Dashboard
+            <BarChart2 size={14} className="inline mr-1.5" /> Ward Dashboard
           </button>
           <button 
             onClick={() => setCurrentView('admit')}
             className={`border rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm transition-all ${currentView === 'admit' ? 'bg-[#0f8f83] text-white border-[#0f8f83] shadow-sm' : 'bg-white text-[#35546a] border-[#e3edf3] hover:bg-[#f6f9fb]'}`}
           >
-            📥 Admit Patient
+            <Download size={14} className="inline mr-1.5" /> Admit Patient
           </button>
           <button 
-            onClick={() => showToast('🖨️ สั่งส่งพิมพ์เอกสารไปยังเครื่องพิมพ์กลางเรียบร้อยแล้ว')}
+            onClick={() => showToast('สั่งส่งพิมพ์เอกสารไปยังเครื่องพิมพ์กลางเรียบร้อยแล้ว')}
             className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90 transition-opacity"
           >
-            📝 Print Sheet
+            <Printer size={14} className="inline mr-1.5" /> Print Sheet
           </button>
         </div>
       </div>
@@ -147,11 +148,11 @@ export default function IpdPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="w-[60px] h-[60px] rounded-[18px] bg-[#fff1d8] grid place-items-center text-[34px] shrink-0 self-center sm:self-start">🐶</div>
+                  <div className="w-[60px] h-[60px] rounded-[18px] bg-[#fff1d8] grid place-items-center shrink-0 self-center sm:self-start"><Dog size={32} className="text-[#b45309]" /></div>
                   <div className="flex-1 w-full">
                     <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4">
                       <div>
-                        <h3 className="m-0 text-[18px] text-[#102a43]">Lucky ♂ <span className="text-[13px] text-[#64788a] font-normal ml-2">MRN P240001</span></h3>
+                        <h3 className="m-0 text-[18px] text-[#102a43]">Lucky <span className="text-[#3b82f6] text-[11px] font-bold border border-[#3b82f6] px-1 py-0.5 rounded">M</span> <span className="text-[13px] text-[#64788a] font-normal ml-2">MRN P240001</span></h3>
                         <p className="m-0 mt-1 text-[13px] text-[#64788a]">Golden Retriever · 5Y 2M · <b className="text-[#0f8f83]">32.5 kg</b></p>
                       </div>
                       <div className="text-left sm:text-right">
@@ -168,7 +169,7 @@ export default function IpdPage() {
                 <div className="bg-white px-[24px] py-3 border-b border-[#e3edf3] flex justify-between items-center z-10 shrink-0">
                   <h3 className="m-0 text-[15px] md:text-[16px] font-bold text-[#102a43]">Daily Treatment Sheet (14/05/2026)</h3>
                   <div className="flex gap-1.5">
-                    <button onClick={() => showToast('📅 โหลดประวัติรักษาของเมื่อวานเรียบร้อย')} className="border border-[#e3edf3] rounded-lg px-2.5 py-1.5 text-xs font-bold bg-[#fbfdfe] text-[#35546a]">◀ Yesterday</button>
+                    <button onClick={() => showToast('โหลดประวัติรักษาของเมื่อวานเรียบร้อย')} className="border border-[#e3edf3] rounded-lg px-2.5 py-1.5 text-xs font-bold bg-[#fbfdfe] text-[#35546a]">◀ Yesterday</button>
                     <button className="border border-[#0f8f83] rounded-lg px-2.5 py-1.5 text-xs font-bold bg-[#e9f7f4] text-[#0f8f83]">Today</button>
                   </div>
                 </div>
@@ -197,7 +198,7 @@ export default function IpdPage() {
                           <td className="py-4 px-6">{t.dose}</td>
                           <td className="py-4 px-6 text-center">
                             {t.status === 'done' ? (
-                              <span className="text-[#0f8d62] font-bold">✅ Done</span>
+                              <span className="text-[#0f8d62] font-bold"><CheckCircle2 size={12} className="inline text-[#0f8d62] mr-1" />Done</span>
                             ) : (
                               <button 
                                 onClick={() => handleMarkDone(t.id)} 
@@ -221,10 +222,10 @@ export default function IpdPage() {
                   onClick={() => setIsModalOpen(true)} 
                   className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-gray-50 transition-colors"
                 >
-                  ➕ Add Extra Task
+                  <Plus size={14} className="inline mr-1" /> Add Extra Task
                 </button>
                 <button 
-                  onClick={() => showToast('💾 บันทึกความคืบหน้าและอาการแพทย์ (Doctor Note) ไปยังระบบเรียบร้อย')}
+                  onClick={() => showToast('บันทึกความคืบหน้าและอาการแพทย์ (Doctor Note) ไปยังระบบเรียบร้อย')}
                   className="border-0 rounded-xl px-[20px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90"
                 >
                   Update Note
@@ -236,13 +237,13 @@ export default function IpdPage() {
           {/* 2. หน้าแสดงผล WARD DASHBOARD */}
           {currentView === 'dashboard' && (
             <div className="flex-1 p-5 md:p-6 overflow-y-auto animate-fadeIn bg-gray-50/50">
-              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2">📊 ภาพรวม Ward A (Intensive Care Unit)</h3>
+              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2"><BarChart2 size={18} className="inline mr-2 text-[#0f8f83]" /> ภาพรวม Ward A (Intensive Care Unit)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {mockWardCages.map((cage) => (
                   <div key={cage.id} className="bg-white border border-[#e3edf3] rounded-2xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                     <div className="flex justify-between items-start">
                       <div className="flex gap-3">
-                        <div className={`w-12 h-12 rounded-xl grid place-items-center text-2xl ${cage.color}`}>{cage.species}</div>
+                        <div className={`w-12 h-12 rounded-xl grid place-items-center ${cage.color}`}>{cage.species === 'dog' ? <Dog size={18} className="text-[#b45309]" /> : cage.species === 'cat' ? <Cat size={18} className="text-[#7c3aed]" /> : cage.species === 'rabbit' ? <PawPrint size={18} className="text-[#15803d]" /> : <Sparkles size={18} className="text-[#9ab0bc]" />}</div>
                         <div>
                           <span className="text-xs font-bold text-gray-400 block">{cage.id}</span>
                           <b className="text-base text-[#102a43]">{cage.pet}</b>
@@ -252,15 +253,15 @@ export default function IpdPage() {
                       <span className={`text-[11px] font-black px-2.5 py-1 rounded-full ${cage.badge}`}>{cage.status}</span>
                     </div>
                     <div className="mt-4 pt-3 border-t border-gray-100 grid grid-cols-2 gap-2 text-xs text-gray-600">
-                      <div>📌 วินิจฉัย: <span className="font-bold text-[#102a43] block truncate">{cage.diagnosis}</span></div>
-                      <div className="text-right">⏱️ ระยะเวลา: <span className="font-bold text-[#102a43] block">{cage.day} ({cage.weight})</span></div>
+                      <div><Pin size={13} className="inline mr-1 text-[#64788a]" /> วินิจฉัย: <span className="font-bold text-[#102a43] block truncate">{cage.diagnosis}</span></div>
+                      <div className="text-right"><Timer size={13} className="inline mr-1 text-[#64788a]" /> ระยะเวลา: <span className="font-bold text-[#102a43] block">{cage.day} ({cage.weight})</span></div>
                     </div>
                     {cage.id === 'ICU-01' && (
                       <button 
                         onClick={() => setCurrentView('sheet')}
                         className="mt-4 w-full bg-[#e9f7f4] text-[#0f8f83] font-bold py-2 rounded-xl border border-[#0f8f83] hover:bg-[#0f8f83] hover:text-white transition-all text-xs cursor-pointer"
                       >
-                        📂 เปิดดู Treatment Sheet แบบละเอียด
+                        <FolderOpen size={13} className="inline mr-1" /> เปิดดู Treatment Sheet...
                       </button>
                     )}
                   </div>
@@ -272,7 +273,7 @@ export default function IpdPage() {
           {/* 3. หน้าแสดงผล ADMIT PATIENT */}
           {currentView === 'admit' && (
             <div className="flex-1 p-5 md:p-6 overflow-y-auto animate-fadeIn">
-              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2">📥 ลงทะเบียน Admit ผู้ป่วยในรายใหม่</h3>
+              <h3 className="m-0 mb-4 text-lg font-bold text-[#102a43] border-b pb-2"><Download size={18} className="inline mr-2 text-[#0f8f83]" /> ลงทะเบียน Admit ผู้ป่วยในรายใหม่</h3>
               <div className="space-y-4 max-w-xl text-sm">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5">
@@ -295,7 +296,7 @@ export default function IpdPage() {
                 </div>
                 <div className="pt-2 flex gap-3">
                   <button type="button" onClick={() => setCurrentView('sheet')} className="border border-gray-300 rounded-xl px-6 py-2.5 font-bold text-sm bg-white text-[#35546a] cursor-pointer">ยกเลิก</button>
-                  <button type="button" onClick={() => { showToast('📥 บันทึกคนไข้เข้ากรง ICU-04 สำเร็จ!'); setCurrentView('dashboard'); }} className="border-0 rounded-xl px-6 py-2.5 font-bold text-sm bg-[#0f8f83] text-white shadow-sm cursor-pointer">ยืนยันการ Admit</button>
+                  <button type="button" onClick={() => { showToast('บันทึกคนไข้เข้ากรง ICU-04 สำเร็จ!'); setCurrentView('dashboard'); }} className="border-0 rounded-xl px-6 py-2.5 font-bold text-sm bg-[#0f8f83] text-white shadow-sm cursor-pointer">ยืนยันการ Admit</button>
                 </div>
               </div>
             </div>
@@ -309,7 +310,7 @@ export default function IpdPage() {
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] p-5 shrink-0">
             <div className="flex justify-between items-center mb-4">
               <h3 className="m-0 text-[16px] font-bold text-[#102a43]">Vitals Monitoring</h3>
-              <button onClick={() => showToast('📈 เปิดประวัติกราฟสัญญาณชีพแบบละเอียด')} className="text-[#0f8f83] text-xs font-bold bg-[#e9f7f4] px-2 py-1 rounded-md cursor-pointer">Record</button>
+              <button onClick={() => showToast('เปิดประวัติกราฟสัญญาณชีพแบบละเอียด')} className="text-[#0f8f83] text-xs font-bold bg-[#e9f7f4] px-2 py-1 rounded-md cursor-pointer">Record</button>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
@@ -345,7 +346,7 @@ export default function IpdPage() {
 
           {/* Fluid Plan */}
           <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] p-5 shrink-0">
-            <h3 className="m-0 mb-4 text-[16px] font-bold text-[#102a43]">Fluid Plan 💧</h3>
+            <h3 className="m-0 mb-4 text-[16px] font-bold text-[#102a43] flex items-center gap-2">Fluid Plan <Droplets size={16} className="text-[#0f8f83]" /></h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-[#64788a]">Fluid Type:</span>
@@ -396,7 +397,7 @@ export default function IpdPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-[#102a43]/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-[#e3edf3] rounded-2xl w-full max-w-md shadow-2xl p-6 animate-scaleIn">
-            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]">➕ เพิ่มรายการคำสั่งการรักษาพิเศษ (Extra Task)</h3>
+            <h3 className="m-0 mb-4 text-base font-bold text-[#102a43]"><Plus size={16} className="inline mr-2 text-[#0f8f83]" /> เพิ่มรายการคำสั่งการรักษาพิเศษ (Extra Task)</h3>
             <form onSubmit={handleAddTask} className="space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">

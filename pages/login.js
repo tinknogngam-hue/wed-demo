@@ -1,6 +1,6 @@
 ﻿import { useState } from 'react';
-import { useRouter } from 'next/navigation';   // ✅ Next.js 13+
-import Link from 'next/link';                   // ✅ Next.js
+import { useRouter } from 'next/navigation';   // Next.js 13+
+import Link from 'next/link';                   // Next.js
 import { Heart, Eye, EyeOff, LogIn } from 'lucide-react';
 
 export default function LoginPage() {
@@ -62,7 +62,7 @@ export default function LoginPage() {
 
             {/* Password */}
             <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <label className="text-[13px] text-[#39576d] font-[800]">Password</label>
                 <Link
                   href="/forgot-password"
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 >
                   Forgot password?
                 </Link>
-              </div>
+              </div> */}
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -102,12 +102,12 @@ export default function LoginPage() {
             </button>
 
             {/* Sign up link */}
-            <div className="text-center mt-2">
+            {/* <div className="text-center mt-2">
               <span className="text-sm text-muted">Don't have an account? </span>
               <Link href="/signup" className="text-sm font-bold text-primary hover:underline no-underline">
                 Create an account
               </Link>
-            </div>
+            </div> */}
 
           </form>
 

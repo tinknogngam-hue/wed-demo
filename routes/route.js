@@ -12,11 +12,11 @@ import Inventory      from '../pages/inventory';
 import Billing        from '../pages/billing';
 
 export const appRoutes = [
-  // 🔓 หน้าทั่วไป (ไม่ต้องเข้าสู่ระบบ และไม่ต้องแสดงเมนูด้านบน)
+  // หน้าทั่วไป (ไม่ต้องเข้าสู่ระบบ และไม่ต้องแสดงเมนูด้านบน)
   { path: '/login',           element: <Login />,           title: 'Login' },
   { path: '/forgot-password', element: <ForgotPassword />,  title: 'Forgot Password' },
   
-  // 🔒 หน้าภายในระบบ (ต้องล็อกอิน และต้องการให้แสดงเมนูด้านบน)
+  // หน้าภายในระบบ (ต้องล็อกอิน และต้องการให้แสดงเมนูด้านบน)
   { path: '/dashboard',       element: <Dashboard />,       title: 'Dashboard',           isPrivate: true },
   { path: '/register',        element: <Register />,        title: 'Register / Walk-in',  isPrivate: true },
   { path: '/emr',             element: <EMR />,             title: 'OPD / EMR',           isPrivate: true },

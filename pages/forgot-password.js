@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Link from 'next/link';                   // ✅ Next.js
-import { useRouter } from 'next/navigation';    // ✅ Next.js 13+
-import { Heart, Mail, ArrowLeft, KeyRound, ShieldCheck, RefreshCw } from 'lucide-react';
+import Link from 'next/link';                   // Next.js
+import { useRouter } from 'next/navigation';    // Next.js 13+
+import { Heart, Mail, ArrowLeft, KeyRound, ShieldCheck, RefreshCw, Check } from 'lucide-react';
 
 // ─── Step indicators ───────────────────────────────────────────────────────────
 const STEPS = ['Enter Email', 'Verify Code', 'New Password'];
@@ -19,7 +19,7 @@ function StepIndicator({ current }) {
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition-all
                   ${done ? 'bg-primary text-white' : active ? 'bg-primary/10 border-2 border-primary text-primary' : 'bg-gray-100 text-muted border-2 border-line'}`}
               >
-                {done ? '✓' : i + 1}
+                {done ? <Check size={14} /> : i + 1}
               </div>
               <span className={`text-[10px] font-bold whitespace-nowrap ${active ? 'text-primary' : done ? 'text-primary/70' : 'text-muted'}`}>
                 {label}
@@ -144,7 +144,7 @@ function StepOTP({ email, onNext }) {
 
       <div className="text-center">
         {resent ? (
-          <p className="text-xs text-green-600 font-bold">✓ Code resent successfully</p>
+          <p className="text-xs text-green-600 font-bold flex items-center gap-1"><Check size={12} /> Code resent successfully</p>
         ) : (
           <button type="button" onClick={handleResend}
             className="text-xs text-primary cursor-pointer hover:underline bg-transparent border-0 flex items-center gap-1 mx-auto">
@@ -249,7 +249,7 @@ function SuccessScreen() {
   return (
     <div className="flex flex-col items-center gap-4 text-center py-4">
       <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-        <span className="text-3xl">✓</span>
+        <Check size={40} />
       </div>
       <h2 className="text-[22px] font-black text-[#102a43] m-0">Password reset!</h2>
       <p className="text-muted text-sm max-w-[280px] m-0">
