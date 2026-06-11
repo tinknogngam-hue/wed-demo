@@ -22,6 +22,8 @@ const mockQueues = {
 };
 
 export default function EmrPage() {
+  const [toast, setToast] = useState('');
+
   // State สำหรับจัดการคิวซ้ายมือ
   const [activeTab, setActiveTab] = useState('waiting');
   
@@ -36,6 +38,12 @@ export default function EmrPage() {
 
   return (
     <div className="h-full flex flex-col p-4 md:p-6 bg-[#f6f9fb] overflow-auto">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
       {/* Topbar ของหน้า EMR */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_auto] gap-4 items-center mb-3.5 shrink-0">
         <div>
@@ -54,13 +62,13 @@ export default function EmrPage() {
           <Link href="/register" className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb] no-underline">
             ← Back to Register
           </Link>
-          <button className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
+          <button onClick={() => setToast('กำลังโหลดเทมเพลต...')} className="border border-[#e3edf3] rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
             Template
           </button>
-          <button className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-[#eef4f7] text-[#35546a]">
+          <button onClick={() => setToast('ส่งไปพิมพ์แล้ว')} className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-[#eef4f7] text-[#35546a]">
             Print
           </button>
-          <button className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm">
+          <button onClick={() => setToast('บันทึกการเยี่ยมเสร็จสิ้น ปิด OPD แล้ว')} className="border-0 rounded-xl px-[15px] py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm">
             Complete Visit
           </button>
         </div>

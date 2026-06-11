@@ -1,14 +1,21 @@
 ﻿import React, { useState } from 'react';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 
 export default function AppointmentPage() {
   const [view, setView] = useState('monthly');
+  const [toast, setToast] = useState('');
 
   return (
     <div className="h-screen flex bg-slate-50 overflow-hidden">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
       {/* --- SIDEBAR (จากภาพ edited-image.png) --- */}
       <div className="w-[280px] bg-white border-r border-slate-200 p-4 flex flex-col shrink-0">
-        <button className="bg-white border border-slate-200 shadow-sm rounded-full px-6 py-2.5 font-bold text-slate-700 mb-6 flex items-center gap-2 hover:bg-slate-50 transition">
+        <button onClick={() => setToast('เปิดฟอร์มสร้างนัดหมายใหม่...')} className="bg-white border border-slate-200 shadow-sm rounded-full px-6 py-2.5 font-bold text-slate-700 mb-6 flex items-center gap-2 hover:bg-slate-50 transition">
           <span className="text-xl">+</span> สร้าง
         </button>
         
@@ -107,8 +114,16 @@ function MonthlyView() {
    DAILY VIEW (Include Schedule + Full Form)
    ================================================== */
 function DailyView() {
+  const [toast, setToast] = useState('');
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-6 h-full min-h-0">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
       {/* Left: Schedule List */}
       <div className="bg-white border border-[#e3edf3] rounded-[18px] shadow-[0_14px_35px_rgba(16,42,67,.07)] flex flex-col overflow-hidden">
         <div className="p-5 border-b border-[#e3edf3] bg-[#fbfdfe] flex items-center justify-between">
@@ -187,10 +202,10 @@ function DailyView() {
         </div>
 
         <div className="p-[18px_24px] border-t border-[#e3edf3] bg-[#fbfdfe] shrink-0 flex gap-2.5">
-          <button className="flex-1 border border-[#e3edf3] rounded-xl py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
+          <button onClick={() => setToast('ล้างข้อมูลฟอร์มแล้ว')} className="flex-1 border border-[#e3edf3] rounded-xl py-[10px] font-[850] cursor-pointer text-sm bg-white text-[#35546a] hover:bg-[#f6f9fb]">
             Clear
           </button>
-          <button className="flex-[2] border-0 rounded-xl py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90">
+          <button onClick={() => setToast('บันทึกนัดหมายเรียบร้อยแล้ว')} className="flex-[2] border-0 rounded-xl py-[10px] font-[850] cursor-pointer text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm hover:opacity-90">
             Save Appointment
           </button>
         </div>

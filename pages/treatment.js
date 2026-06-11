@@ -1,7 +1,7 @@
 // src/pages/treatment.js
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Syringe, Scissors, Droplets, ClipboardList, CheckCircle2, Clock, Plus, ChevronRight, PawPrint } from 'lucide-react';
+import { Syringe, Scissors, Droplets, ClipboardList, CheckCircle2, Clock, Plus, ChevronRight, PawPrint, X } from 'lucide-react';
 
 const treatmentItems = [
   { id: 1, type: 'injection', name: 'Maropitant 16mg IV',       status: 'done',    time: '09:30', nurse: 'พยาบาล ก',  note: 'ฉีดเข้าหลอดเลือดดำแล้ว ไม่มีอาการแทรกซ้อน' },
@@ -29,9 +29,16 @@ const statusConfig = {
 
 export default function TreatmentPage() {
   const [activeSection, setActiveSection] = useState('treatment');
+  const [toast, setToast] = useState('');
 
   return (
     <div className="h-full flex flex-col p-4 md:p-6 bg-[#f6f9fb] overflow-auto">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 shrink-0">
@@ -86,7 +93,7 @@ export default function TreatmentPage() {
             <>
               <div className="flex items-center justify-between p-[16px_20px] border-b border-[#e3edf3] shrink-0">
                 <h4 className="m-0 text-[16px] font-bold text-[#102a43] flex items-center gap-2"><Syringe size={16} className="text-[#0f8f83]" /> Treatment Orders</h4>
-                <button className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
+                <button onClick={() => setToast('เปิดฟอร์มเพิ่มคำสั่งการรักษา...')} className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
                   <Plus size={13} /> Add Order
                 </button>
               </div>
@@ -123,7 +130,7 @@ export default function TreatmentPage() {
             <>
               <div className="flex items-center justify-between p-[16px_20px] border-b border-[#e3edf3] shrink-0">
                 <h4 className="m-0 text-[16px] font-bold text-[#102a43] flex items-center gap-2"><Scissors size={16} className="text-[#0f8f83]" /> Procedure Records</h4>
-                <button className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
+                <button onClick={() => setToast('เปิดฟอร์มเพิ่มหัตถการ...')} className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
                   <Plus size={13} /> Add Procedure
                 </button>
               </div>
@@ -154,7 +161,7 @@ export default function TreatmentPage() {
             <>
               <div className="flex items-center justify-between p-[16px_20px] border-b border-[#e3edf3] shrink-0">
                 <h4 className="m-0 text-[16px] font-bold text-[#102a43] flex items-center gap-2"><ClipboardList size={16} className="text-[#0f8f83]" /> Progress Notes</h4>
-                <button className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
+                <button onClick={() => setToast('เปิดฟอร์มเพิ่มบันทึก...')} className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
                   <Plus size={13} /> Add Note
                 </button>
               </div>
@@ -240,7 +247,7 @@ export default function TreatmentPage() {
                 </label>
               ))}
             </div>
-            <button className="w-full mt-4 border-0 rounded-xl py-3 font-[850] text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm cursor-pointer hover:opacity-90">
+            <button onClick={() => setToast('ยืนยันและดำเนินการต่อแล้ว')} className="w-full mt-4 border-0 rounded-xl py-3 font-[850] text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm cursor-pointer hover:opacity-90">
               Confirm & Proceed →
             </button>
           </div>

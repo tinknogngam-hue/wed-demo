@@ -208,7 +208,7 @@ function CompletedRow({ q }) {
 }
 
 // Comprehensive detail panel
-function DetailPanel({ q, onClose }) {
+function DetailPanel({ q, onClose, onToast }) {
   const [tab, setTab] = useState('history');
   const history = historyByPet[q.pet] || [];
   const sm = STATUS_META[q.status];
@@ -251,7 +251,7 @@ function DetailPanel({ q, onClose }) {
                 <p className="m-0 text-[11px] font-[800] text-[#8faabb] uppercase tracking-wide mb-1">อาการ/เหตุผล</p>
                 <p className="m-0 text-[12px] text-[#102a43] font-[700]">{q.chief}</p>
               </div>
-              <button className="flex items-center gap-1 text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline shrink-0">
+              <button onClick={() => onToast('เปิดฟอร์มแก้ไขข้อมูลสัตว์เลี้ยง')} className="flex items-center gap-1 text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline shrink-0">
                 <Pencil size={11} /> แก้ไข
               </button>
             </div>
@@ -300,7 +300,7 @@ function DetailPanel({ q, onClose }) {
             {tab === 'files' && <p className="text-[12px] text-[#a0b2c3] mt-4">ยังไม่มีไฟล์แนบ</p>}
 
             {tab === 'history' && history.length > 0 && (
-              <button className="mt-1 text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline">
+              <button onClick={() => onToast('กำลังโหลดประวัติการรักษาทั้งหมด...')} className="mt-1 text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline">
                 ดูประวัติทั้งหมด <ChevronRight size={11} className="inline" />
               </button>
             )}
@@ -311,19 +311,19 @@ function DetailPanel({ q, onClose }) {
         <div className="px-4 py-4 shrink-0 lg:w-[190px]">
           <p className="m-0 text-[11px] font-[800] text-[#8faabb] uppercase tracking-wide mb-3">จัดการคิว</p>
           <div className="flex flex-col gap-2">
-            <button className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer shadow-sm">
+            <button onClick={() => onToast(`เรียกคิว ${q.qno} (${q.pet}) แล้ว`)} className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer shadow-sm">
               <Bell size={13} /> Call Next
             </button>
-            <button className="flex items-center justify-center gap-2 bg-blue-500 text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer">
+            <button onClick={() => onToast(`ย้าย ${q.pet} เข้าพบสัตวแพทย์แล้ว`)} className="flex items-center justify-center gap-2 bg-blue-500 text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer">
               <ArrowRight size={13} /> ย้ายไปพบ
             </button>
-            <button className="flex items-center justify-center gap-2 bg-orange-500 text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer">
+            <button onClick={() => onToast('เปิดหน้าต่างเลือกสัตวแพทย์...')} className="flex items-center justify-center gap-2 bg-orange-500 text-white rounded-xl px-3 py-2.5 text-[12px] font-[850] border-0 cursor-pointer">
               <RefreshCw size={13} /> เปลี่ยนสัตวแพทย์
             </button>
-            <button className="flex items-center justify-center gap-2 bg-red-50 text-red-600 rounded-xl px-3 py-2.5 text-[12px] font-[850] border border-red-200 cursor-pointer">
+            <button onClick={() => { onToast(`ยกเลิกคิว ${q.qno} แล้ว`); onClose(); }} className="flex items-center justify-center gap-2 bg-red-50 text-red-600 rounded-xl px-3 py-2.5 text-[12px] font-[850] border border-red-200 cursor-pointer">
               <X size={13} /> ยกเลิกคิว
             </button>
-            <button className="flex items-center justify-center gap-2 bg-white text-[#35546a] rounded-xl px-3 py-2.5 text-[12px] font-[850] border border-[#e3edf3] cursor-pointer hover:bg-gray-50">
+            <button onClick={() => onToast('บันทึกหมายเหตุเรียบร้อยแล้ว')} className="flex items-center justify-center gap-2 bg-white text-[#35546a] rounded-xl px-3 py-2.5 text-[12px] font-[850] border border-[#e3edf3] cursor-pointer hover:bg-gray-50">
               <FileText size={13} /> บันทึกหมายเหตุ
             </button>
             <Link href="/emr" className="flex items-center justify-center gap-2 bg-white text-[#0f8f83] rounded-xl px-3 py-2.5 text-[12px] font-[850] border border-[#0f8f83] no-underline hover:bg-[#e9f7f4]">
@@ -348,6 +348,7 @@ export default function QueuePage() {
   const [search, setSearch]         = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
   const [filterStatus, setFilter]   = useState('all');
+  const [toast, setToast]           = useState('');
 
   const byStatus = (s) => mockQueue.filter(q => q.status === s);
   const waiting   = byStatus('waiting');
@@ -365,17 +366,24 @@ export default function QueuePage() {
   const handleSelect = (q) => setSelected(prev => prev?.qno === q.qno ? null : q);
 
   const kpis = [
-    { label: 'รอทั้งหมด',       value: active.length,       sub: 'รอเฉลี่ย 28 นาที',    icon: '⏱' },
-    { label: 'รอพบสัตวแพทย์',  value: waitingDr.length,    sub: 'เฉลี่ย 18 นาที',       icon: '🐾', warn: true },
-    { label: 'กำลังพบ',         value: inConsult.length,    sub: `OPD ${inConsult.filter(q=>q.service==='OPD').length} · Proc ${inConsult.filter(q=>q.service==='Procedure').length}`, icon: '👨‍⚕️' },
-    { label: 'เสร็จแล้ววันนี้', value: completed.length,    sub: '↑ 12% จากเมื่อวาน',   icon: '✓' },
-    { label: 'Walk-in วันนี้',   value: 3,                   sub: 'ไม่มีนัดหมาย',         icon: '🚶' },
+    { label: 'รอทั้งหมด',       value: active.length,       sub: 'รอเฉลี่ย 28 นาที' },
+    { label: 'รอพบสัตวแพทย์',  value: waitingDr.length,    sub: 'เฉลี่ย 18 นาที', warn: true },
+    { label: 'กำลังพบ',         value: inConsult.length,    sub: `OPD ${inConsult.filter(q=>q.service==='OPD').length} · Proc ${inConsult.filter(q=>q.service==='Procedure').length}` },
+    { label: 'เสร็จแล้ววันนี้', value: completed.length,    sub: '+12% จากเมื่อวาน' },
+    { label: 'Walk-in วันนี้',   value: 3,                   sub: 'ไม่มีนัดหมาย' },
   ];
 
   const filterLabels = { all: 'ทั้งหมด', waiting: 'รอคิว', 'waiting-dr': 'รอพบแพทย์', 'in-consult': 'กำลังพบ', completed: 'เสร็จแล้ว' };
 
   return (
     <div className="h-full flex flex-col bg-[#f0f5f8]">
+
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
 
       {/* ── KPI bar ── */}
       <div className="bg-white border-b border-[#e3edf3] px-5 py-3 shrink-0">
@@ -399,7 +407,7 @@ export default function QueuePage() {
 
           {/* Action buttons */}
           <div className="flex items-center gap-2 shrink-0">
-            <button className="flex items-center gap-1.5 border border-[#e3edf3] rounded-xl px-3 py-2.5 text-[12px] font-[850] bg-white text-[#35546a] hover:bg-gray-50">
+            <button onClick={() => setToast('รีเฟรชข้อมูลคิวแล้ว')} className="flex items-center gap-1.5 border border-[#e3edf3] rounded-xl px-3 py-2.5 text-[12px] font-[850] bg-white text-[#35546a] hover:bg-gray-50">
               <RefreshCw size={13} />
             </button>
             <div className="flex border border-[#e3edf3] rounded-xl overflow-hidden">
@@ -412,7 +420,7 @@ export default function QueuePage() {
                 </button>
               ))}
             </div>
-            <button className="flex items-center gap-1.5 border border-[#0f8f83] rounded-xl px-4 py-2.5 text-[12px] font-[850] bg-white text-[#0f8f83] hover:bg-[#e9f7f4]">
+            <button onClick={() => setToast('เรียกคิวถัดไปแล้ว')} className="flex items-center gap-1.5 border border-[#0f8f83] rounded-xl px-4 py-2.5 text-[12px] font-[850] bg-white text-[#0f8f83] hover:bg-[#e9f7f4]">
               <Bell size={13} /> Call Next
             </button>
             <Link href="/register" className="flex items-center gap-1.5 border-0 rounded-xl px-4 py-2.5 text-[12px] font-[850] bg-gradient-to-r from-[#07364a] to-[#04293a] text-white shadow-sm no-underline">
@@ -475,7 +483,7 @@ export default function QueuePage() {
                   {masterFiltered.length === 0 && (
                     <p className="text-center text-[12px] text-[#a0b2c3] mt-4">ไม่พบรายการ</p>
                   )}
-                  <button className="w-full mt-2 text-center text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline py-1">
+                  <button onClick={() => setToast('กำลังแสดงรายการทั้งหมด...')} className="w-full mt-2 text-center text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline py-1">
                     ดูทั้งหมด <ChevronRight size={11} className="inline" />
                   </button>
                 </div>
@@ -485,7 +493,7 @@ export default function QueuePage() {
               <KanbanColumn title="รอคิว" count={waiting.length} dotCls="bg-yellow-400"
                 items={waiting} selected={selected} onSelect={handleSelect}
                 extra={
-                  <button className="w-full mt-2 flex items-center justify-center gap-1.5 text-[12px] font-[850] text-[#0f8f83] bg-[#e9f7f4] hover:bg-[#d2f0eb] rounded-xl py-2 border-0 cursor-pointer transition-colors">
+                  <button onClick={() => setToast('กำลังเปิดฟอร์มเพิ่มผู้ป่วยใหม่เข้าคิว...')} className="w-full mt-2 flex items-center justify-center gap-1.5 text-[12px] font-[850] text-[#0f8f83] bg-[#e9f7f4] hover:bg-[#d2f0eb] rounded-xl py-2 border-0 cursor-pointer transition-colors">
                     <Plus size={13} /> เพิ่มเข้าคิว
                   </button>
                 }
@@ -508,7 +516,7 @@ export default function QueuePage() {
                 </div>
                 <div className="flex-1 overflow-auto px-2 py-2">
                   {completed.map(q => <CompletedRow key={q.qno} q={q} />)}
-                  <button className="w-full mt-2 text-center text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline py-1">
+                  <button onClick={() => setToast('กำลังโหลดรายการเสร็จแล้วทั้งหมด...')} className="w-full mt-2 text-center text-[11px] text-[#0f8f83] font-bold bg-transparent border-0 cursor-pointer hover:underline py-1">
                     ดูทั้งหมด <ChevronRight size={11} className="inline" />
                   </button>
                 </div>
@@ -583,7 +591,7 @@ export default function QueuePage() {
         {/* ── Detail panel ── */}
         {selected && (
           <div className="px-4 pb-4 shrink-0">
-            <DetailPanel q={selected} onClose={() => setSelected(null)} />
+            <DetailPanel q={selected} onClose={() => setSelected(null)} onToast={setToast} />
           </div>
         )}
       </div>

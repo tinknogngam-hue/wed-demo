@@ -19,6 +19,7 @@ const visitSummary = [
 ];
 
 export default function DischargePage() {
+  const [toast, setToast] = useState('');
   const [docs, setDocs] = useState({ medical: true, prescription: true, invoice: false });
   const [followupDate, setFollowupDate] = useState('');
   const [notifyMethod, setNotifyMethod] = useState(['line']);
@@ -31,6 +32,12 @@ export default function DischargePage() {
 
   return (
     <div className="h-full flex flex-col p-4 md:p-6 bg-[#f6f9fb] overflow-auto">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 shrink-0">
@@ -88,7 +95,7 @@ export default function DischargePage() {
                 <Printer size={16} className="text-[#0f8f83]" />
                 <h4 className="m-0 text-[15px] font-bold text-[#102a43]">เอกสารสำหรับเจ้าของ</h4>
               </div>
-              <button className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
+              <button onClick={() => setToast('ส่งเอกสารทั้งหมดไปพิมพ์แล้ว')} className="flex items-center gap-1.5 border-0 rounded-xl px-3 py-2 font-[850] text-[12px] bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
                 <Printer size={13} /> Print All
               </button>
             </div>
@@ -160,7 +167,7 @@ export default function DischargePage() {
                   <option>Any Available Doctor</option>
                 </select>
               </div>
-              <button className="w-full border-0 rounded-xl py-2.5 font-[850] text-sm bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
+              <button onClick={() => setToast('บันทึกนัดหมายติดตามแล้ว')} className="w-full border-0 rounded-xl py-2.5 font-[850] text-sm bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb]">
                 <CalendarPlus size={14} className="inline mr-1.5" /> Save Appointment
               </button>
             </div>
@@ -190,7 +197,7 @@ export default function DischargePage() {
                   }
                 </label>
               ))}
-              <button className="w-full border-0 rounded-xl py-2.5 font-[850] text-sm bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb] mt-1">
+              <button onClick={() => setToast('ส่งการแจ้งเตือนให้เจ้าของแล้ว')} className="w-full border-0 rounded-xl py-2.5 font-[850] text-sm bg-[#e9f7f4] text-[#0f8f83] cursor-pointer hover:bg-[#d4f0eb] mt-1">
                 Send Now
               </button>
             </div>

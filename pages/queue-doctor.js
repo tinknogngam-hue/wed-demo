@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Dog, Cat, Rabbit, PawPrint,
   ChevronLeft, ChevronRight, CalendarDays, Clock, Users,
-  CheckCircle2, XCircle, Plus, Stethoscope,
+  CheckCircle2, XCircle, X, Plus, Stethoscope,
   Scissors, FlaskConical, ScanLine, Syringe,
   UserCircle, ChevronDown, Filter,
 } from 'lucide-react';
@@ -221,6 +221,7 @@ export default function QueueDoctorPage() {
   const [selectedAppt, setSelectedAppt]     = useState(null);
   const [doctorFilter, setDoctorFilter]     = useState('all');
   const [serviceFilter, setServiceFilter]   = useState('all');
+  const [toast, setToast]                   = useState('');
 
   const handleCardClick = (appt) => {
     setSelectedAppt(prev => prev?.id === appt.id ? null : appt);
@@ -238,12 +239,18 @@ export default function QueueDoctorPage() {
 
   return (
     <div className="h-full flex flex-col bg-[#f0f5f8] overflow-hidden">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
 
       {/* ── Header ── */}
       <div className="bg-white border-b border-[#e3edf3] px-5 py-3 shrink-0 flex items-center justify-between gap-3 flex-wrap">
         {/* Date navigation */}
         <div className="flex items-center gap-2">
-          <button className="w-8 h-8 border border-[#e3edf3] rounded-xl grid place-items-center bg-white hover:bg-[#f6f9fb] transition">
+          <button onClick={() => setToast('นำทางไปวันก่อนหน้า')} className="w-8 h-8 border border-[#e3edf3] rounded-xl grid place-items-center bg-white hover:bg-[#f6f9fb] transition">
             <ChevronLeft size={15} className="text-[#64788a]" />
           </button>
           <div className="flex items-center gap-2">
@@ -251,7 +258,7 @@ export default function QueueDoctorPage() {
             <span className="font-[900] text-[14px] text-[#102a43]">วันนี้</span>
             <span className="text-[13px] text-[#64788a]">จันทร์ 9 มิ.ย. 2026</span>
           </div>
-          <button className="w-8 h-8 border border-[#e3edf3] rounded-xl grid place-items-center bg-white hover:bg-[#f6f9fb] transition">
+          <button onClick={() => setToast('นำทางไปวันถัดไป')} className="w-8 h-8 border border-[#e3edf3] rounded-xl grid place-items-center bg-white hover:bg-[#f6f9fb] transition">
             <ChevronRight size={15} className="text-[#64788a]" />
           </button>
         </div>
@@ -261,6 +268,7 @@ export default function QueueDoctorPage() {
           {['Day', 'Week'].map((v, i) => (
             <button
               key={v}
+              onClick={() => setToast(`เปลี่ยนมุมมองเป็น ${v}`)}
               className={`px-4 py-2 text-[12px] font-[850] border-0 cursor-pointer transition-colors
                 ${i > 0 ? 'border-l border-[#e3edf3]' : ''}
                 ${v === 'Day' ? 'bg-[#0f8f83] text-white' : 'bg-white text-[#64788a] hover:bg-gray-50'}`}
@@ -305,7 +313,7 @@ export default function QueueDoctorPage() {
           </div>
 
           {/* New appointment */}
-          <button className="flex items-center gap-1.5 bg-gradient-to-r from-[#0f8f83] to-[#07364a] text-white border-0 rounded-xl px-4 py-2 text-[12px] font-[850] cursor-pointer shadow-sm hover:opacity-90 transition">
+          <button onClick={() => setToast('เพิ่มนัดหมายใหม่')} className="flex items-center gap-1.5 bg-gradient-to-r from-[#0f8f83] to-[#07364a] text-white border-0 rounded-xl px-4 py-2 text-[12px] font-[850] cursor-pointer shadow-sm hover:opacity-90 transition">
             <Plus size={13} /> New Appointment
           </button>
         </div>

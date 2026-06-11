@@ -1,7 +1,7 @@
 // src/pages/followup.js
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Bell, CalendarDays, MessageSquare, Mail, Phone, CheckCircle2, AlertCircle, Clock, Search, Filter, Dog, Cat, PawPrint } from 'lucide-react';
+import { Bell, CalendarDays, MessageSquare, Mail, Phone, CheckCircle2, AlertCircle, Clock, Search, Filter, Dog, Cat, PawPrint, X } from 'lucide-react';
 
 const followupList = [
   { id: 1, pet: 'Lucky',   species: 'dog',    breed: 'Golden Retriever', owner: 'คุณณวรรณ', phone: '081-234-5678', dueDate: '2569-06-23', reason: 'Recheck Lab (CKD)',          urgency: 'high',   notified: false, vet: 'Dr. Nattha',   status: 'pending' },
@@ -34,6 +34,7 @@ const stats = [
 export default function FollowupPage() {
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [toast, setToast] = useState('');
 
   const filtered = followupList.filter(f => {
     const matchSearch = f.pet.toLowerCase().includes(search.toLowerCase()) ||
@@ -44,6 +45,12 @@ export default function FollowupPage() {
 
   return (
     <div className="h-full flex flex-col p-4 md:p-6 bg-[#f6f9fb] overflow-auto">
+      {toast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#102a43] text-white text-sm px-6 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10">
+          <span className="font-bold">{toast}</span>
+          <button onClick={() => setToast('')} className="bg-transparent border-0 text-white/50 hover:text-white cursor-pointer ml-2"><X size={14} /></button>
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 shrink-0">
@@ -52,7 +59,7 @@ export default function FollowupPage() {
           <p className="m-0 mt-1 text-[#64788a] text-sm">ติดตามการนัดหมายและส่งการแจ้งเตือนให้เจ้าของ</p>
         </div>
         <div className="flex gap-2.5 shrink-0">
-          <button className="border border-[#e3edf3] rounded-xl px-4 py-2.5 font-[850] text-sm bg-white text-[#35546a] hover:bg-gray-50 flex items-center gap-2">
+          <button onClick={() => setToast('ส่งการแจ้งเตือนทั้งหมดแล้ว')} className="border border-[#e3edf3] rounded-xl px-4 py-2.5 font-[850] text-sm bg-white text-[#35546a] hover:bg-gray-50 flex items-center gap-2">
             <Bell size={14} /> Send All Reminders
           </button>
           <Link href="/appointment" className="border-0 rounded-xl px-4 py-2.5 font-[850] text-sm bg-gradient-to-r from-[#0f8f83] to-[#0b6d87] text-white shadow-sm no-underline">
@@ -141,13 +148,13 @@ export default function FollowupPage() {
 
                 {/* Notify Buttons */}
                 <div className="flex gap-2 shrink-0">
-                  <button title="LINE" className={`w-9 h-9 rounded-xl border grid place-items-center transition-colors ${f.notified ? 'border-[#0f8f83] bg-[#e9f7f4] text-[#0f8f83]' : 'border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83]'}`}>
+                  <button title="LINE" onClick={() => setToast('ส่งการแจ้งเตือนผ่าน LINE แล้ว')} className={`w-9 h-9 rounded-xl border grid place-items-center transition-colors ${f.notified ? 'border-[#0f8f83] bg-[#e9f7f4] text-[#0f8f83]' : 'border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83]'}`}>
                     <MessageSquare size={15} />
                   </button>
-                  <button title="Phone" className="w-9 h-9 rounded-xl border border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83] grid place-items-center transition-colors">
+                  <button title="Phone" onClick={() => setToast('กำลังโทรออก...')} className="w-9 h-9 rounded-xl border border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83] grid place-items-center transition-colors">
                     <Phone size={15} />
                   </button>
-                  <button title="Email" className="w-9 h-9 rounded-xl border border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83] grid place-items-center transition-colors">
+                  <button title="Email" onClick={() => setToast('ส่งอีเมลแล้ว')} className="w-9 h-9 rounded-xl border border-[#e3edf3] bg-white text-[#64788a] hover:border-[#0f8f83] grid place-items-center transition-colors">
                     <Mail size={15} />
                   </button>
                 </div>
